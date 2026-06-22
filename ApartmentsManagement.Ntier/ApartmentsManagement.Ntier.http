@@ -1,0 +1,6 @@
+@ApartmentsManagement.Ntier_HostAddress = http://localhost:5207
+
+GET {{ApartmentsManagement.Ntier_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

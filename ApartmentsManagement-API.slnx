@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ApartmentsManagement.Ntier/ApartmentsManagement.Ntier.csproj" />
+  <Project Path="BusinessLogicLayer/BusinessLogicLayer.csproj" />
+  <Project Path="CommonDataLayer/CommonDataLayer.csproj" />
+  <Project Path="DataAccessLayer/DataAccessLayer.csproj" />
+</Solution>

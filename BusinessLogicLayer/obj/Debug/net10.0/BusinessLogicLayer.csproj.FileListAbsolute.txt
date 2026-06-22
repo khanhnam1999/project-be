@@ -1,0 +1,17 @@
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\BusinessLogicLayer.deps.json
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\BusinessLogicLayer.dll
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\BusinessLogicLayer.pdb
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\CommonDataLayer.dll
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\DataAccessLayer.dll
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\CommonDataLayer.pdb
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\bin\Debug\net10.0\DataAccessLayer.pdb
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.csproj.AssemblyReference.cache
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.AssemblyInfoInputs.cache
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.AssemblyInfo.cs
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\Business.450209FB.Up2Date
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.dll
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\refint\BusinessLogicLayer.dll
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\BusinessLogicLayer.pdb
+E:\project4\ApartmentsManagement-API\BusinessLogicLayer\obj\Debug\net10.0\ref\BusinessLogicLayer.dll
