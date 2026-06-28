@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonDataLayer.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,9 +24,9 @@ namespace CommonDataLayer.Entities
         public DateTime StartDate { get; set; }
 
         [Required, DataType(DataType.Date)]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        [Required, StringLength(20)]
-        public string Type { get; set; }
+        [Required]
+        public ContractTypeEnum Type { get; set; }
     }
 }

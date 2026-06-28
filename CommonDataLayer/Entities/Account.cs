@@ -1,9 +1,5 @@
 ﻿using CommonDataLayer.Enum;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace CommonDataLayer.Entities
 {
@@ -16,12 +12,15 @@ namespace CommonDataLayer.Entities
         public string FullName { get; set; }
 
         [Phone]
+        [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
         public string PhoneNumber { get; set; }
 
         [EmailAddress]
+        [Required(ErrorMessage = "Email là bắt buộc")]
         public string Email { get; set; }
 
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "Ngày sinh là bắt buộc")]
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Username là bắt buộc")]
@@ -34,7 +33,9 @@ namespace CommonDataLayer.Entities
 
         public string? Token { get; set; }
 
+        [Required(ErrorMessage = "Role là bắt buộc")]
         public RoleEnum Role { get; set; } = RoleEnum.People;
+
         public Resident? Resident { get; set; }
     }
 }

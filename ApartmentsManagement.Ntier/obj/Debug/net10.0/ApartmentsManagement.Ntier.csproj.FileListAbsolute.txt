@@ -152,6 +152,7 @@ E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.
 E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\ApartmentsManagement.Ntier.csproj.CoreCompileInputs.cache
 E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\ApartmentsManagement.Ntier.MvcApplicationPartsAssemblyInfo.cs
 E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\ApartmentsManagement.Ntier.MvcApplicationPartsAssemblyInfo.cache
+E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\ApartmentsManagement.Ntier.sourcelink.json
 E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\rjimswa.dswa.cache.json
 E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 E:\project4\ApartmentsManagement-API\ApartmentsManagement.Ntier\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json

@@ -23,5 +23,13 @@ namespace DataAccessLayer
 
             return account;
         }
+
+        public void SaveToken(Guid id, string token)
+        {
+            Account account = _dbSet.FirstOrDefault(a => a.AccountId == id);
+            if (account == null) throw new Exception("Không lưu được token");
+            account.Token = token;
+            Complete(account);
+        }
     }
 }

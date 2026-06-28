@@ -30,6 +30,7 @@ namespace BusinessLogicLayer
             }
 
             account.Token = CreateJWT(account);
+            _accountDL.SaveToken(account.AccountId, account.Token);
             return account;
         }
 

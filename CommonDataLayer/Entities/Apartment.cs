@@ -32,6 +32,7 @@ namespace CommonDataLayer.Entities
         public string? PictureUrl { get; set; }
 
         // Giá thuê
+        [Required]
         public decimal RentPrice { get; set; }
 
         // Giá mua

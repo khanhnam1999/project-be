@@ -6,6 +6,7 @@ E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDat
 E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDataLayer.AssemblyInfoInputs.cache
 E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDataLayer.AssemblyInfo.cs
 E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDataLayer.csproj.CoreCompileInputs.cache
+E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDataLayer.sourcelink.json
 E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDataLayer.dll
 E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\refint\CommonDataLayer.dll
 E:\project4\ApartmentsManagement-API\CommonDataLayer\obj\Debug\net10.0\CommonDataLayer.pdb

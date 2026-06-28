@@ -2,8 +2,6 @@
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -21,6 +19,9 @@ builder.Services.AddScoped<IServiceBL, ServiceBL>();
 
 builder.Services.AddScoped<IAccountDL, AccountDL>();
 builder.Services.AddScoped<IAccountBL, AccountBL>();
+
+// Thêm SignalR service
+builder.Services.AddSignalR();
 
 // Đăng ký DbContext với SQL Server
 builder.Services.AddDbContext<CondoContext>(options =>
@@ -44,11 +45,18 @@ builder.Services.AddCors(option =>
     option.AddPolicy(name: MyAllowSpecificOrigins,
                     policy =>
                     {
-                        policy.AllowAnyOrigin()
+                        policy.WithOrigins("http://localhost:5173")
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowCredentials(); // cần cho SignalR;
                     });
 });
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 
 // Config Authentication
 builder.Services.AddAuthentication(x =>
@@ -128,5 +136,8 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map Hub
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

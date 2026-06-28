@@ -1774,9 +1774,13 @@
       "Account": {
         "required": [
           "createdDate",
+          "dateOfBirth",
+          "email",
           "fullName",
           "modifiedDate",
           "password",
+          "phoneNumber",
+          "role",
           "username"
         ],
         "type": "object",
@@ -1802,14 +1806,14 @@
             "type": "string"
           },
           "phoneNumber": {
+            "minLength": 1,
             "type": "string",
-            "format": "tel",
-            "nullable": true
+            "format": "tel"
           },
           "email": {
+            "minLength": 1,
             "type": "string",
-            "format": "email",
-            "nullable": true
+            "format": "email"
           },
           "dateOfBirth": {
             "type": "string",
@@ -1843,6 +1847,7 @@
           "buyPrice",
           "createdDate",
           "modifiedDate",
+          "rentPrice",
           "roomNumber",
           "status"
         ],
@@ -2026,12 +2031,19 @@
             "format": "date"
           },
           "type": {
-            "maxLength": 20,
-            "minLength": 0,
-            "type": "string"
+            "$ref": "#/components/schemas/ContractTypeEnum"
           }
         },
         "additionalProperties": false
+      },
+      "ContractTypeEnum": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "FilterData": {
         "type": "object",
@@ -2150,7 +2162,9 @@
         "required": [
           "createdDate",
           "modifiedDate",
-          "paymentDate"
+          "paymentDate",
+          "paymentDeadline",
+          "title"
         ],
         "type": "object",
         "properties": {
@@ -2176,6 +2190,14 @@
           "resident": {
             "$ref": "#/components/schemas/Resident"
           },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "amount": {
             "maximum": 100000000,
             "minimum": 0,
@@ -2186,18 +2208,25 @@
             "type": "string",
             "format": "date"
           },
-          "paymentMethod": {
-            "maxLength": 50,
-            "minLength": 0,
+          "paymentDeadline": {
             "type": "string",
-            "nullable": true
+            "format": "date"
           },
-          "description": {
-            "type": "string",
-            "nullable": true
+          "paymentMethod": {
+            "$ref": "#/components/schemas/PaymentMethodEnum"
           }
         },
         "additionalProperties": false
+      },
+      "PaymentMethodEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Resident": {
         "required": [

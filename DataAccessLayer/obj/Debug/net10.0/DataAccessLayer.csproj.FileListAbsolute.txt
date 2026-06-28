@@ -8,6 +8,7 @@ E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAcces
 E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAccessLayer.AssemblyInfoInputs.cache
 E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAccessLayer.AssemblyInfo.cs
 E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAccessLayer.csproj.CoreCompileInputs.cache
+E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAccessLayer.sourcelink.json
 E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAcce.E67BD773.Up2Date
 E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\DataAccessLayer.dll
 E:\project4\ApartmentsManagement-API\DataAccessLayer\obj\Debug\net10.0\refint\DataAccessLayer.dll

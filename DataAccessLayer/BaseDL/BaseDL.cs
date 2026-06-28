@@ -22,7 +22,7 @@ namespace DataAccessLayer
         {
             _dbSet.Add(entity);
             _context.SaveChanges();
-            return GetPrimaryKey(entity);
+            return GetPrimaryKeyValue(entity);
         }
 
         public void Complete(T entity)
@@ -80,14 +80,7 @@ namespace DataAccessLayer
             {
                 foreach (var condition in filterData.Conditions)
                 {
-                    var parameter = Expression.Parameter(typeof(T), "x");
-                    var property = Expression.Property(parameter, condition.Key);
-                    var constant = Expression.Constant(condition.Value);
-
-                    // so sánh bằng ==
-                    var body = Expression.Equal(property, constant);
-
-                    var lambda = Expression.Lambda<Func<T, bool>>(body, parameter);
+                    var lambda = CreateLambda(condition.Key, condition.Value);
 
                     query = query.Where(lambda);
                 }
@@ -106,21 +99,20 @@ namespace DataAccessLayer
             return list;
         }
 
-        public T GetById(Guid id)
+        public virtual T GetById(Guid id)
         {
-            T result = _dbSet.Find(id);
-            if (result != null && typeof(T).GetProperty("IsDeleted") != null)
-            {
-                bool isDeleted = (bool)typeof(T).GetProperty("IsDeleted").GetValue(result);
-                if (isDeleted) return null;
-            }
+            var query = _dbSet.Where(NotDeleted<T>());
+
+            var lambda = CreateLambda(GetPrimaryKey<T>().ToString(), id);
+
+            T result = query.FirstOrDefault(lambda);
             return result;
         }
 
         public Guid Update(Guid id, T entity)
         {
             PropertyInfo[] props = typeof(T).GetProperties();
-            Guid entityId = GetPrimaryKey(entity);
+            Guid entityId = GetPrimaryKeyValue(entity);
             if (id != entityId) throw new Exception("Không tìm thấy dữ liệu cần chỉnh sửa");
 
             var existing = GetById(id);
@@ -138,7 +130,7 @@ namespace DataAccessLayer
             return id;
         }
 
-        private static Expression<Func<T, bool>> NotDeleted<T>() where T : BaseEntity => t => !t.IsDeleted;
+        protected static Expression<Func<T, bool>> NotDeleted<T>() where T : BaseEntity => t => !t.IsDeleted;
 
         private IQueryable<T> ApplyOrdering(IQueryable<T> source, string propertyName, string sortMethod)
         {
@@ -168,14 +160,42 @@ namespace DataAccessLayer
             return source.Provider.CreateQuery<T>(resultExp);
         }
 
-        public static Guid GetPrimaryKey(T entity)
+        public static Guid GetPrimaryKeyValue(T entity)
+        {
+            PropertyInfo[] props = typeof(T).GetProperties();
+            var primaryKeyProp = GetPrimaryKey<T>();
+
+            return (Guid)primaryKeyProp.GetValue(entity);
+        }
+
+        public static PropertyInfo GetPrimaryKey<T>()
         {
             PropertyInfo[] props = typeof(T).GetProperties();
             var primaryKeyProp = props.FirstOrDefault(prop => prop.GetCustomAttributes(typeof(KeyAttribute), true).Count() > 0);
 
             if (primaryKeyProp == null) throw new Exception($"Entity {typeof(T).Name} chưa được định dạng primary key");
 
-            return (Guid)primaryKeyProp.GetValue(entity);
+            return primaryKeyProp;
+        }
+
+        private static Expression<Func<T, bool>> CreateLambda(string key, object? value)
+        {
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = Expression.Property(parameter, key);
+
+            // khi value = null nghĩa là (x => x.AccountId)
+            if (value == null)
+            {
+                return Expression.Lambda<Func<T, bool>>(
+                    Expression.Convert(property, typeof(object)),
+                    parameter
+                );
+            }
+
+            // Khi value != null nghĩa là (x => x.AccountId == value)
+            var constant = Expression.Constant(value);
+            var body = Expression.Equal(property, constant);
+            return Expression.Lambda<Func<T, bool>>(body, parameter);
         }
     }
 }

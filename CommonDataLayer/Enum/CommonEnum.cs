@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CommonDataLayer.Enum
+﻿namespace CommonDataLayer.Enum
 {
     // Trạng thái của căn hộ, ví dụ: 0 - Available (Có sẵn), 1 - Occupied (Đã thuê), 2 - Maintenance (Bảo trì)
     public enum ApartmentStatusEnum : byte
@@ -37,5 +33,29 @@ namespace CommonDataLayer.Enum
         InProgress = 1,
         Resolved = 2,
         Closed = 3
+    }
+
+    // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Installment (Mua trả góp), 2 - Rental (Thuê)
+    public enum ContractTypeEnum : byte
+    {
+        Cash = 0,
+        Installment = 1,
+        Rental = 2,
+    }
+
+    // Phương thức thanh toán, ví dụ: 0 - Cash (Tiền mặt), 1 - BankTransfer (Chuyển khoản), 2 - CreditCard (Thẻ tín dụng), 3 - EWallet(Ví thanh toán)
+    public enum PaymentMethodEnum : byte
+    {
+        Cash = 0,
+        BankTransfer = 1,
+        CreditCard = 2,
+        EWallet = 3
+    }
+
+    // Thông tin của thông báo: 0 - Read (Đã đọc), 1 - Unread (Chưa đọc)
+    public enum NotificationStatus : byte
+    {
+        Read = 0,
+        Unread = 1,
     }
 }

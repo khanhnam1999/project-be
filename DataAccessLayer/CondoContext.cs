@@ -16,6 +16,7 @@ namespace DataAccessLayer
         public DbSet<Service> Services { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Incident> Incidents { get; set; }
+        public DbSet<Notification> Notification {  get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
