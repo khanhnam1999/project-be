@@ -700,7 +700,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
-          "BCrypt.Net-Next": "4.1.0"
+          "BCrypt.Net-Next": "4.1.0",
+          "Microsoft.Extensions.Caching.Abstractions": "10.0.2"
         },
         "compile": {
           "bin/placeholder/CommonDataLayer.dll": {}

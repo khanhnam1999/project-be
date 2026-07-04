@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Create_Database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,11 +16,13 @@ namespace DataAccessLayer.Migrations
                 columns: table => new
                 {
                     ApartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Building = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Floor = table.Column<int>(type: "int", nullable: false),
                     RoomNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Area = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false),
+                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RentPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BuyPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -28,6 +30,42 @@ namespace DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Apartments", x => x.ApartmentId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    NotificationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiveEnum = table.Column<byte>(type: "tinyint", nullable: false),
+                    ResidentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.NotificationId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Provinces",
+                columns: table => new
+                {
+                    ProvinceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProvinceName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProvinceNameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Provinces", x => x.ProvinceId);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,14 +86,74 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Wards",
+                columns: table => new
+                {
+                    WardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WardName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WardNameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProvinceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wards", x => x.WardId);
+                    table.ForeignKey(
+                        name: "FK_Wards_Provinces_ProvinceId",
+                        column: x => x.ProvinceId,
+                        principalTable: "Provinces",
+                        principalColumn: "ProvinceId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Accounts",
+                columns: table => new
+                {
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<byte>(type: "tinyint", nullable: false),
+                    IdentityNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    IdentityIssuedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IdentityIssuedPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProvinceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AddressDetail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<byte>(type: "tinyint", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
+                    table.ForeignKey(
+                        name: "FK_Accounts_Provinces_ProvinceId",
+                        column: x => x.ProvinceId,
+                        principalTable: "Provinces",
+                        principalColumn: "ProvinceId");
+                    table.ForeignKey(
+                        name: "FK_Accounts_Wards_WardId",
+                        column: x => x.WardId,
+                        principalTable: "Wards",
+                        principalColumn: "WardId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Residents",
                 columns: table => new
                 {
                     ResidentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ResidentType = table.Column<byte>(type: "tinyint", nullable: false),
+                    AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ApartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -64,6 +162,12 @@ namespace DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Residents", x => x.ResidentId);
+                    table.ForeignKey(
+                        name: "FK_Residents_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Residents_Apartments_ApartmentId",
                         column: x => x.ApartmentId,
@@ -108,7 +212,10 @@ namespace DataAccessLayer.Migrations
                     ApartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Type = table.Column<byte>(type: "tinyint", nullable: false),
+                    InitialPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    LoanAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    InstallmentMonth = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -137,7 +244,6 @@ namespace DataAccessLayer.Migrations
                     ReportedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -163,10 +269,12 @@ namespace DataAccessLayer.Migrations
                 {
                     PaymentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ResidentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentDeadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethod = table.Column<byte>(type: "tinyint", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -180,6 +288,28 @@ namespace DataAccessLayer.Migrations
                         principalTable: "Residents",
                         principalColumn: "ResidentId");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_IdentityNumber",
+                table: "Accounts",
+                column: "IdentityNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_PhoneNumber",
+                table: "Accounts",
+                column: "PhoneNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_ProvinceId",
+                table: "Accounts",
+                column: "ProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_WardId",
+                table: "Accounts",
+                column: "WardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ResidentId",
@@ -217,9 +347,20 @@ namespace DataAccessLayer.Migrations
                 column: "ResidentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Residents_AccountId",
+                table: "Residents",
+                column: "AccountId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Residents_ApartmentId",
                 table: "Residents",
                 column: "ApartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wards_ProvinceId",
+                table: "Wards",
+                column: "ProvinceId");
         }
 
         /// <inheritdoc />
@@ -235,6 +376,9 @@ namespace DataAccessLayer.Migrations
                 name: "Incidents");
 
             migrationBuilder.DropTable(
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
                 name: "Payments");
 
             migrationBuilder.DropTable(
@@ -244,7 +388,16 @@ namespace DataAccessLayer.Migrations
                 name: "Residents");
 
             migrationBuilder.DropTable(
+                name: "Accounts");
+
+            migrationBuilder.DropTable(
                 name: "Apartments");
+
+            migrationBuilder.DropTable(
+                name: "Wards");
+
+            migrationBuilder.DropTable(
+                name: "Provinces");
         }
     }
 }

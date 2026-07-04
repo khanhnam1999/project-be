@@ -7,8 +7,12 @@ namespace BusinessLogicLayer
 {
     public interface IAccountBL : IBaseBL<Account>
     {
-        public Account Authenticate(Login login);
+        Account Authenticate(Login login);
 
-        public Guid Register(Account account);
+        Guid Register(Account account);
+
+        Guid SetPwd(string identityNumber, string email, string password);
+
+        string GetEmail(string identityNumber);
     }
 }

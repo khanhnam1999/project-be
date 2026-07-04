@@ -16,6 +16,20 @@ namespace CommonDataLayer.DTO
     public class FilterKeyValue
     {
         public string Key { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
+        public Guid? GuidValue { get; set; }
+    }
+
+    public class VerifyOtpRequest
+    {
+        public string Email { get; set; }
+        public string Otp { get; set; }
+    }
+
+    public class SetPwdData
+    {
+        public string IdentityNumber { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

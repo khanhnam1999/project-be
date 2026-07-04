@@ -11,29 +11,33 @@ namespace DataAccessLayer
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Resident> Residents { get; set; }
+        public DbSet<ContractResident> ContractResidents { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Incident> Incidents { get; set; }
-        public DbSet<Notification> Notification {  get; set; }
+        public DbSet<Notification> Notifications {  get; set; }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<Ward> Wards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Account - PhoneNumber (Unique)
+            // Account - IdentityNumber (Unique)
             modelBuilder.Entity<Account>()
-                .HasIndex(b => b.PhoneNumber).IsUnique();
+                 .HasIndex(b => b.IdentityNumber).IsUnique();
 
-            // Apartment - Resident (1-nhiều)
-            modelBuilder.Entity<Resident>()
-                .HasOne(r => r.Apartment)
-                .WithMany(a => a.Residents)
-                .HasForeignKey(r => r.ApartmentId)
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.Province)
+                .WithMany(w => w.Accounts)
+                .HasForeignKey(a => a.ProvinceId)
                 .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Resident>()
-                .HasOne(r => r.Account)
-                .WithOne(a => a.Resident)
-                .HasForeignKey<Resident>(r => r.AccountId);
+
+            modelBuilder.Entity<Account>()
+                .HasOne(a => a.Ward)
+                .WithMany(w => w.Accounts)
+                .HasForeignKey(a => a.WardId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Apartment - Contract (1-nhiều)
             modelBuilder.Entity<Contract>()
@@ -46,11 +50,22 @@ namespace DataAccessLayer
             modelBuilder.Entity<Resident>()
                 .HasIndex(r => r.AccountId).IsUnique();
 
-            // Resident - Contract (1-nhiều)
-            modelBuilder.Entity<Contract>()
-                .HasOne(c => c.Resident)
-                .WithMany(r => r.Contracts)
-                .HasForeignKey(c => c.ResidentId)
+            // Khai báo composite key cho bảng trung gian
+            modelBuilder.Entity<ContractResident>()
+                .HasKey(cr => new { cr.ContractId, cr.ResidentId });
+
+            // Quan hệ Contract ↔ ContractResident
+            modelBuilder.Entity<ContractResident>()
+                .HasOne(cr => cr.Contract)
+                .WithMany(c => c.ContractResidents)
+                .HasForeignKey(cr => cr.ContractId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Quan hệ Resident ↔ ContractResident
+            modelBuilder.Entity<ContractResident>()
+                .HasOne(cr => cr.Resident)
+                .WithMany(r => r.ContractResidents)
+                .HasForeignKey(cr => cr.ResidentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             // Resident - Payment (1-nhiều)

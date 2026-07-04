@@ -20,13 +20,25 @@ namespace BusinessLogicLayer
             _configuration = configuration;
         }
 
+        public string GetEmail(string identityNumber)
+        {
+            Account account = _accountDL.Authenticate(identityNumber);
+            return account.Email;
+        }
+
+        public Guid SetPwd(string identityNumber, string email, string password)
+        {
+            string passwordHash = EntityUntilities.HashPassword(password);
+            return _accountDL.SetPwd(identityNumber, email, passwordHash);
+        }
+
         public Account Authenticate(Login login)
         {
-            Account account = _accountDL.Authenticate(login.Username);
+            Account account = _accountDL.Authenticate(login.IdentityNumber);
 
             if (!EntityUntilities.VerifyPassword(login.Password, account.Password))
             {
-                throw new Exception("Sai tài khoản hoặc mật khẩu");
+                throw new Exception("Sai số căn cước hoặc mật khẩu");
             }
 
             account.Token = CreateJWT(account);
@@ -36,8 +48,7 @@ namespace BusinessLogicLayer
 
         public Guid Register(Account account)
         {
-            string passwordHash = EntityUntilities.HashPassword(account.Password);
-            account.Password = passwordHash;
+            account.Password = "";
             return _accountDL.Add(account);
         }
 

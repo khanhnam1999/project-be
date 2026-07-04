@@ -1,9 +1,5 @@
 ﻿using CommonDataLayer.Enum;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using System.Text;
 
 namespace CommonDataLayer.Entities
 {
@@ -39,7 +35,6 @@ namespace CommonDataLayer.Entities
         [Required]
         public decimal BuyPrice { get; set; }
 
-        public ICollection<Resident>? Residents { get; set; }
         public ICollection<Contract>? Contracts { get; set; }
         public ICollection<Incident>? Incidents { get; set; }
     }

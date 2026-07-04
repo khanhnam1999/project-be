@@ -7,6 +7,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMemoryCache();
+builder.Services.AddTransient<SmsService>();
+
 // Dependency Injection
 builder.Services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
 builder.Services.AddScoped(typeof(IBaseBL<>), typeof(BaseBL<>));
@@ -19,6 +22,9 @@ builder.Services.AddScoped<IServiceBL, ServiceBL>();
 
 builder.Services.AddScoped<IAccountDL, AccountDL>();
 builder.Services.AddScoped<IAccountBL, AccountBL>();
+
+builder.Services.AddScoped<IContractDL, ContractDL>();
+builder.Services.AddScoped<IContractBL, ContractBL>();
 
 // Thêm SignalR service
 builder.Services.AddSignalR();

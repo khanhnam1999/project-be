@@ -1,7 +1,5 @@
 ﻿using BusinessLogicLayer;
-using CommonDataLayer.DTO;
 using CommonDataLayer.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApartmentsManagement.Ntier.Controllers

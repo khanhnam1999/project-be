@@ -8,13 +8,12 @@
         Maintenance = 2
     }
 
-    // Vai trò của người dùng trong hệ thống, ví dụ: 0 - People (Người dùng thông thường), 1 - Owner (Chủ sở hữu), 2 - Staff (Nhân viên), 3 - Resident (Cư dân)
+    // Vai trò của người dùng trong hệ thống, ví dụ: 0 - Resident (Cư dân), 1 - Owner (Chủ sở hữu), 2 - Staff (Nhân viên)
     public enum RoleEnum : byte
     {
-        People = 0,
+        Resident = 0,
         Onwer = 1,
         Staff = 2,
-        Resident = 3,
     }
 
     // Loại cư dân trong căn hộ, ví dụ: 3 - HomeOwner (Chủ hộ), 0 - Spouse (Vợ/Chồng), 1 - Child (Con cái), 2 - Tenant (Người thuê)
@@ -57,5 +56,21 @@
     {
         Read = 0,
         Unread = 1,
+    }
+
+    // Thông tin giới tính người dùng: 0 - Male (Nam), 1 - Female (Nữ), 2 - Other (Khác)
+    public enum GenderEnum : byte
+    {
+        Male = 0,
+        Female = 1,
+        Other = 2,
+    }
+
+    // Thông tin gửi cho ai: 0 - Tất cả, 1 - Dân cư, 2 - Nhân viên
+    public enum NotificationReceiveEnum :byte
+    {
+        All = 0,
+        Resident = 1,
+        Staff = 2,
     }
 }

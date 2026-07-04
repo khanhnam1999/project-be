@@ -67,6 +67,143 @@
         }
       }
     },
+    "/api/Accounts/checkAccount/{identityNumber}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "name": "identityNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Accounts/requestOtp/{email}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Accounts/verifyOtp": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Accounts/setPwd": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPwdData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPwdData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetPwdData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Accounts/filter": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Accounts": {
       "get": {
         "tags": [
@@ -564,6 +701,37 @@
         }
       }
     },
+    "/api/Bookings/filter": {
+      "post": {
+        "tags": [
+          "Bookings"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Bookings": {
       "get": {
         "tags": [
@@ -786,6 +954,99 @@
                   "type": "string",
                   "format": "uuid"
                 }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contracts/addResidentToContract": {
+      "post": {
+        "tags": [
+          "Contracts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractResident"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractResident"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractResident"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contracts/updateResidentToContract": {
+      "post": {
+        "tags": [
+          "Contracts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractResident"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractResident"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContractResident"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Contracts/filter": {
+      "post": {
+        "tags": [
+          "Contracts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
               }
             }
           }
@@ -1030,6 +1291,37 @@
         }
       }
     },
+    "/api/Incidents/filter": {
+      "post": {
+        "tags": [
+          "Incidents"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Incidents": {
       "get": {
         "tags": [
@@ -1252,6 +1544,301 @@
                   "type": "string",
                   "format": "uuid"
                 }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Provinces/filter": {
+      "post": {
+        "tags": [
+          "Provinces"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Provinces": {
+      "get": {
+        "tags": [
+          "Provinces"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Provinces"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Province"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Province"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Province"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Provinces/{id}": {
+      "get": {
+        "tags": [
+          "Provinces"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Provinces"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Province"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Province"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Province"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Provinces/delete": {
+      "post": {
+        "tags": [
+          "Provinces"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Provinces/restore": {
+      "post": {
+        "tags": [
+          "Provinces"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Provinces/delete-hard": {
+      "post": {
+        "tags": [
+          "Provinces"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Residents/filter": {
+      "post": {
+        "tags": [
+          "Residents"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
               }
             }
           }
@@ -1496,6 +2083,37 @@
         }
       }
     },
+    "/api/Services/filter": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Services": {
       "get": {
         "tags": [
@@ -1729,41 +2347,266 @@
         }
       }
     },
-    "/WeatherForecast": {
-      "get": {
+    "/api/Wards/filter": {
+      "post": {
         "tags": [
-          "WeatherForecast"
+          "Wards"
         ],
-        "operationId": "GetWeatherForecast",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterData"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Wards": {
+      "get": {
+        "tags": [
+          "Wards"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Wards"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Wards/{id}": {
+      "get": {
+        "tags": [
+          "Wards"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Wards"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Wards/delete": {
+      "post": {
+        "tags": [
+          "Wards"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Wards/restore": {
+      "post": {
+        "tags": [
+          "Wards"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Wards/delete-hard": {
+      "post": {
+        "tags": [
+          "Wards"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1773,15 +2616,18 @@
     "schemas": {
       "Account": {
         "required": [
+          "addressDetail",
           "createdDate",
           "dateOfBirth",
           "email",
           "fullName",
+          "gender",
+          "identityIssuedDate",
+          "identityIssuedPlace",
+          "identityNumber",
           "modifiedDate",
-          "password",
           "phoneNumber",
-          "role",
-          "username"
+          "role"
         ],
         "type": "object",
         "properties": {
@@ -1819,15 +2665,43 @@
             "type": "string",
             "format": "date"
           },
-          "username": {
-            "maxLength": 20,
-            "minLength": 3,
-            "pattern": "^[a-zA-Z0-9_]+$",
+          "gender": {
+            "$ref": "#/components/schemas/GenderEnum"
+          },
+          "identityNumber": {
+            "minLength": 1,
+            "pattern": "^\\d{12}$",
+            "type": "string"
+          },
+          "identityIssuedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "identityIssuedPlace": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "provinceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "province": {
+            "$ref": "#/components/schemas/Province"
+          },
+          "wardId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "ward": {
+            "$ref": "#/components/schemas/Ward"
+          },
+          "addressDetail": {
+            "minLength": 1,
             "type": "string"
           },
           "password": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "token": {
             "type": "string",
@@ -1835,9 +2709,6 @@
           },
           "role": {
             "$ref": "#/components/schemas/RoleEnum"
-          },
-          "resident": {
-            "$ref": "#/components/schemas/Resident"
           }
         },
         "additionalProperties": false
@@ -1899,13 +2770,6 @@
           "buyPrice": {
             "type": "number",
             "format": "double"
-          },
-          "residents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Resident"
-            },
-            "nullable": true
           },
           "contracts": {
             "type": "array",
@@ -2008,12 +2872,12 @@
             "type": "string",
             "format": "uuid"
           },
-          "residentId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "resident": {
-            "$ref": "#/components/schemas/Resident"
+          "residents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Resident"
+            },
+            "nullable": true
           },
           "apartmentId": {
             "type": "string",
@@ -2030,8 +2894,69 @@
             "type": "string",
             "format": "date"
           },
+          "contractResidents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContractResident"
+            },
+            "nullable": true
+          },
           "type": {
             "$ref": "#/components/schemas/ContractTypeEnum"
+          },
+          "initialPayment": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "loanAmount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "installmentMonth": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ContractResident": {
+        "required": [
+          "createdDate",
+          "modifiedDate",
+          "residentType"
+        ],
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "contractId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/Contract"
+          },
+          "residentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resident": {
+            "$ref": "#/components/schemas/Resident"
+          },
+          "residentType": {
+            "$ref": "#/components/schemas/ResidentTypeEnum"
           }
         },
         "additionalProperties": false
@@ -2084,9 +3009,23 @@
           "value": {
             "type": "string",
             "nullable": true
+          },
+          "guidValue": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           }
         },
         "additionalProperties": false
+      },
+      "GenderEnum": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Incident": {
         "required": [
@@ -2140,15 +3079,14 @@
       },
       "Login": {
         "required": [
-          "password",
-          "username"
+          "identityNumber",
+          "password"
         ],
         "type": "object",
         "properties": {
-          "username": {
-            "maxLength": 20,
-            "minLength": 3,
-            "pattern": "^[a-zA-Z0-9_]+$",
+          "identityNumber": {
+            "minLength": 1,
+            "pattern": "^\\d{12}$",
             "type": "string"
           },
           "password": {
@@ -2228,6 +3166,48 @@
         "type": "integer",
         "format": "int32"
       },
+      "Province": {
+        "required": [
+          "createdDate",
+          "modifiedDate",
+          "provinceName",
+          "provinceNameEn"
+        ],
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "provinceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "provinceName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "provinceNameEn": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Account"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Resident": {
         "required": [
           "accountId",
@@ -2251,9 +3231,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "residentType": {
-            "$ref": "#/components/schemas/ResidentTypeEnum"
-          },
           "accountId": {
             "type": "string",
             "format": "uuid"
@@ -2261,17 +3238,10 @@
           "account": {
             "$ref": "#/components/schemas/Account"
           },
-          "apartmentId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "apartment": {
-            "$ref": "#/components/schemas/Apartment"
-          },
-          "contracts": {
+          "contractResidents": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Contract"
+              "$ref": "#/components/schemas/ContractResident"
             },
             "nullable": true
           },
@@ -2313,8 +3283,7 @@
         "enum": [
           0,
           1,
-          2,
-          3
+          2
         ],
         "type": "integer",
         "format": "int32"
@@ -2367,24 +3336,82 @@
         },
         "additionalProperties": false
       },
-      "WeatherForecast": {
+      "SetPwdData": {
         "type": "object",
         "properties": {
-          "date": {
+          "identityNumber": {
             "type": "string",
-            "format": "date"
+            "nullable": true
           },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "summary": {
+          "email": {
             "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VerifyOtpRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "otp": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Ward": {
+        "required": [
+          "createdDate",
+          "modifiedDate",
+          "wardName",
+          "wardNameEn"
+        ],
+        "type": "object",
+        "properties": {
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "wardId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "wardName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "wardNameEn": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "provinceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "province": {
+            "$ref": "#/components/schemas/Province"
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Account"
+            },
             "nullable": true
           }
         },
@@ -2409,13 +3436,16 @@
       "name": "Incidents"
     },
     {
+      "name": "Provinces"
+    },
+    {
       "name": "Residents"
     },
     {
       "name": "Services"
     },
     {
-      "name": "WeatherForecast"
+      "name": "Wards"
     }
   ]
 }

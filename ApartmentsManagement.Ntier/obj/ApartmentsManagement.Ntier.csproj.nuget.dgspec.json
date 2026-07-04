@@ -43,6 +43,9 @@
           }
         },
         "warningProperties": {
+          "noWarn": [
+            "NU1903"
+          ],
           "warnAsError": [
             "NU1605"
           ]
@@ -922,6 +925,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.1.0, )"
+            },
+            "Microsoft.Extensions.Caching.Abstractions": {
+              "target": "Package",
+              "version": "[10.0.2, )"
             }
           },
           "imports": [

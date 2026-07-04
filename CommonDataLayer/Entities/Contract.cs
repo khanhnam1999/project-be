@@ -12,9 +12,8 @@ namespace CommonDataLayer.Entities
     {
         [Key]
         public Guid ContractId { get; set; } = Guid.NewGuid();
-        [ForeignKey("Resident")]
-        public Guid ResidentId { get; set; }
-        public Resident? Resident { get; set; }
+        
+        public ICollection<Resident>? Residents { get; set; }
 
         [ForeignKey("Apartment")]
         public Guid ApartmentId { get; set; }
@@ -26,7 +25,21 @@ namespace CommonDataLayer.Entities
         [Required, DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
+        // Danh sách cư dân theo hợp đồng ( nhiều - nhiều)
+        public ICollection<ContractResident>? ContractResidents { get; set; }
+
+        // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Installment (Mua trả góp), 2 - Rental (Thuê)
         [Required]
         public ContractTypeEnum Type { get; set; }
+
+        // Hợp đồng trả góp
+        // Số tiền trả trước
+        public decimal? InitialPayment {  get; set; }
+
+        // Số tiền còn lại trả góp
+        public decimal? LoanAmount { get; set; }
+
+        // Số tháng trả góp
+        public decimal? InstallmentMonth { get; set; }
     }
 }

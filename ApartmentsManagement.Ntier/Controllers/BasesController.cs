@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using CommonDataLayer.DTO;
 using CommonDataLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,18 +14,30 @@ namespace ApartmentsManagement.Ntier.Controllers
 
         public BasesController(IBaseBL<T> baseBL) => _baseBL = baseBL;
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpPost("filter")]
+        public IActionResult FilterData([FromBody] FilterData filterData)
         {
             try
             {
-                IEnumerable<T> list = _baseBL.GetAll();
+                IEnumerable<T> list = _baseBL.FilterData(filterData);
                 return Ok(list);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                return Ok(_baseBL.GetAll());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
 

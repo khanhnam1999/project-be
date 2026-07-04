@@ -16,19 +16,5 @@ namespace ApartmentsManagement.Ntier.Controllers
         {
             _apartmentBL = apartmentBL;
         }
-
-        [HttpPost("filter")]
-        public IActionResult FilterData([FromBody] FilterData filterData)
-        {
-                try
-                {
-                    IEnumerable<Apartment> list = _apartmentBL.FilterData(filterData);
-                    return Ok(list);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-            }
-        }
     }
 }

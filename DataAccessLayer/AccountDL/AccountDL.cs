@@ -16,9 +16,24 @@ namespace DataAccessLayer
             _dbSet = condoContext.Set<Account>();
         }
 
-        public Account Authenticate(string username)
+        public Guid SetPwd(string identityNumber, string email, string password)
         {
-            Account account = _dbSet.FirstOrDefault(a => a.Username == username);
+            Account account = _dbSet.Where(NotDeleted<Account>())
+                .FirstOrDefault(x => x.IdentityNumber == identityNumber && x.Email == email);
+
+            if (account == null) throw new Exception("Lỗi đổi mật khẩu");
+
+            account.Password = password;
+            Complete(account);
+
+            return account.AccountId;
+        }
+
+        public Account Authenticate(string identityNunber)
+        {
+            Account account = _dbSet
+                .Where(NotDeleted<Account>())
+                .FirstOrDefault(a => a.IdentityNumber == identityNunber);
             if (account == null) throw new Exception("Không đăng nhập được");
 
             return account;

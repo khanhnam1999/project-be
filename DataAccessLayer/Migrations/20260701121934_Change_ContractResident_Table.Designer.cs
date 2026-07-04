@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(CondoContext))]
-    [Migration("20260219151213_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260701121934_Change_ContractResident_Table")]
+    partial class Change_ContractResident_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,91 @@ namespace DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CommonDataLayer.Entities.Account", b =>
+                {
+                    b.Property<Guid>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AddressDetail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte>("Gender")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("IdentityIssuedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IdentityIssuedPlace")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("ProvinceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("Role")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("WardId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AccountId");
+
+                    b.HasIndex("IdentityNumber")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("ProvinceId");
+
+                    b.HasIndex("WardId");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("CommonDataLayer.Entities.Apartment", b =>
                 {
                     b.Property<Guid>("ApartmentId")
@@ -34,10 +119,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<decimal>("Area")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Building")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<decimal>("BuyPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -51,15 +134,19 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("RentPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("RoomNumber")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("ApartmentId");
 
@@ -119,30 +206,59 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal?>("InitialPayment")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("InstallmentMonth")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("LoanAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("ContractId");
+
+                    b.HasIndex("ApartmentId");
+
+                    b.ToTable("Contracts");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.ContractResident", b =>
+                {
+                    b.Property<Guid>("ContractId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResidentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ResidentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<byte>("ResidentType")
+                        .HasColumnType("tinyint");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ContractId");
-
-                    b.HasIndex("ApartmentId");
+                    b.HasKey("ContractId", "ResidentId");
 
                     b.HasIndex("ResidentId");
 
-                    b.ToTable("Contracts");
+                    b.ToTable("ContractResident");
                 });
 
             modelBuilder.Entity("CommonDataLayer.Entities.Incident", b =>
@@ -153,9 +269,6 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<Guid>("ApartmentId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -187,14 +300,11 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Incidents");
                 });
 
-            modelBuilder.Entity("CommonDataLayer.Entities.Payment", b =>
+            modelBuilder.Entity("CommonDataLayer.Entities.Notification", b =>
                 {
-                    b.Property<Guid>("PaymentId")
+                    b.Property<Guid>("NotificationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -209,16 +319,63 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("PaymentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("ReceiveEnum")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid?>("ResidentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("Status")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NotificationId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Payment", b =>
+                {
+                    b.Property<Guid>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<DateTime>("PaymentDeadline")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte?>("PaymentMethod")
+                        .HasColumnType("tinyint");
 
                     b.Property<Guid>("ResidentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentId");
 
@@ -227,29 +384,14 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("CommonDataLayer.Entities.Resident", b =>
+            modelBuilder.Entity("CommonDataLayer.Entities.Province", b =>
                 {
-                    b.Property<Guid>("ResidentId")
+                    b.Property<Guid>("ProvinceId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ApartmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -257,13 +399,46 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("ProvinceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProvinceNameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProvinceId");
+
+                    b.ToTable("Provinces");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Resident", b =>
+                {
+                    b.Property<Guid>("ResidentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ContractId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("ResidentId");
 
-                    b.HasIndex("ApartmentId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("ContractId");
 
                     b.ToTable("Residents");
                 });
@@ -300,6 +475,58 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("CommonDataLayer.Entities.Ward", b =>
+                {
+                    b.Property<Guid>("WardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProvinceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WardName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WardNameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("WardId");
+
+                    b.HasIndex("ProvinceId");
+
+                    b.ToTable("Wards");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Account", b =>
+                {
+                    b.HasOne("CommonDataLayer.Entities.Province", "Province")
+                        .WithMany("Accounts")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("CommonDataLayer.Entities.Ward", "Ward")
+                        .WithMany("Accounts")
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Province");
+
+                    b.Navigation("Ward");
+                });
+
             modelBuilder.Entity("CommonDataLayer.Entities.Booking", b =>
                 {
                     b.HasOne("CommonDataLayer.Entities.Resident", "Resident")
@@ -327,13 +554,24 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.Navigation("Apartment");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.ContractResident", b =>
+                {
+                    b.HasOne("CommonDataLayer.Entities.Contract", "Contract")
+                        .WithMany("ContractResidents")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("CommonDataLayer.Entities.Resident", "Resident")
-                        .WithMany("Contracts")
+                        .WithMany("ContractResidents")
                         .HasForeignKey("ResidentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Apartment");
+                    b.Navigation("Contract");
 
                     b.Navigation("Resident");
                 });
@@ -370,13 +608,28 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CommonDataLayer.Entities.Resident", b =>
                 {
-                    b.HasOne("CommonDataLayer.Entities.Apartment", "Apartment")
-                        .WithMany("Residents")
-                        .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("CommonDataLayer.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Apartment");
+                    b.HasOne("CommonDataLayer.Entities.Contract", null)
+                        .WithMany("Residents")
+                        .HasForeignKey("ContractId");
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Ward", b =>
+                {
+                    b.HasOne("CommonDataLayer.Entities.Province", "Province")
+                        .WithMany()
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Province");
                 });
 
             modelBuilder.Entity("CommonDataLayer.Entities.Apartment", b =>
@@ -384,15 +637,25 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Contracts");
 
                     b.Navigation("Incidents");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Contract", b =>
+                {
+                    b.Navigation("ContractResidents");
 
                     b.Navigation("Residents");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Province", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 
             modelBuilder.Entity("CommonDataLayer.Entities.Resident", b =>
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("Contracts");
+                    b.Navigation("ContractResidents");
 
                     b.Navigation("Incidents");
 
@@ -402,6 +665,11 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("CommonDataLayer.Entities.Service", b =>
                 {
                     b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("CommonDataLayer.Entities.Ward", b =>
+                {
+                    b.Navigation("Accounts");
                 });
 #pragma warning restore 612, 618
         }

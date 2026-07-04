@@ -497,7 +497,8 @@
       },
       "CommonDataLayer/1.0.0": {
         "dependencies": {
-          "BCrypt.Net-Next": "4.1.0"
+          "BCrypt.Net-Next": "4.1.0",
+          "Microsoft.Extensions.Caching.Abstractions": "10.0.2"
         },
         "runtime": {
           "CommonDataLayer.dll": {

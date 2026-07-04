@@ -40,6 +40,7 @@ namespace DataAccessLayer
                 if (entity != null && typeof(T).GetProperty("IsDeleted") != null)
                 {
                     typeof(T).GetProperty("IsDeleted").SetValue(entity, isDeleted);
+                    typeof(T).GetProperty("ModifiedDate").SetValue(entity, DateTime.Now);
                     count++;
                 }
             }
@@ -76,13 +77,24 @@ namespace DataAccessLayer
 
             query = ApplyOrdering(query, filterData.SortName, filterData.SortMethod);
 
-            if (filterData.Conditions != null)
+            if (filterData.Conditions != null && filterData.Conditions.Count != 0)
             {
                 foreach (var condition in filterData.Conditions)
                 {
-                    var lambda = CreateLambda(condition.Key, condition.Value);
-
-                    query = query.Where(lambda);
+                    if (condition.GuidValue != null)
+                    {
+                        var lambda = CreateLambda(condition.Key, condition.GuidValue);
+                        query = query.Where(lambda);
+                    }
+                    else if(condition.Value != null)
+                    {
+                        var lambda = CreateLambda(condition.Key, condition.Value);
+                        query = query.Where(lambda);
+                    }
+                    else
+                    {
+                        throw new Exception("Không tồn tại value");
+                    }
                 }
             }
 
@@ -103,7 +115,7 @@ namespace DataAccessLayer
         {
             var query = _dbSet.Where(NotDeleted<T>());
 
-            var lambda = CreateLambda(GetPrimaryKey<T>().ToString(), id);
+            var lambda = CreateLambda(GetPrimaryKey<T>().Name, id);
 
             T result = query.FirstOrDefault(lambda);
             return result;
