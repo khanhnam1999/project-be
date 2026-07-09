@@ -621,7 +621,7 @@
   },
   {
     "ContainingType": "ApartmentsManagement.Ntier.Controllers.ContractsController",
-    "Method": "RemoveResidentToContract",
+    "Method": "UpdateResidentToContract",
     "RelativePath": "api/Contracts/updateResidentToContract",
     "HttpMethod": "POST",
     "IsController": true,

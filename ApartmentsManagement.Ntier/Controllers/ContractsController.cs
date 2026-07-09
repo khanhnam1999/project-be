@@ -34,7 +34,7 @@ namespace ApartmentsManagement.Ntier.Controllers
 
         [Authorize]
         [HttpPost("updateResidentToContract")]
-        public IActionResult RemoveResidentToContract([FromBody] ContractResident contractResident)
+        public IActionResult UpdateResidentToContract([FromBody] ContractResident contractResident)
         {
             try
             {

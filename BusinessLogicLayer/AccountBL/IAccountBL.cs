@@ -9,8 +9,6 @@ namespace BusinessLogicLayer
     {
         Account Authenticate(Login login);
 
-        Guid Register(Account account);
-
         Guid SetPwd(string identityNumber, string email, string password);
 
         string GetEmail(string identityNumber);

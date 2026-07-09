@@ -13,7 +13,10 @@ namespace DataAccessLayer
         IEnumerable<T> GetAll();
 
         // Phân trang và lọc dữ liệu
-        IEnumerable<T> FilterData(FilterData filterData);
+        FilterResult<T> FilterData(FilterData filterData);
+
+        // Function trả về query tổng thể cho filter
+        IQueryable<T> GetQueryFilterData(FilterData filterData);
 
         // Lấy theo ID
         T GetById(Guid id);

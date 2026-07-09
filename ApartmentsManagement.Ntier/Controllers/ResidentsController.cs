@@ -8,8 +8,10 @@ namespace ApartmentsManagement.Ntier.Controllers
     [ApiController]
     public class ResidentsController : BasesController<Resident>
     {
-        public ResidentsController(IBaseBL<Resident> baseBL) : base(baseBL)
+        private readonly IResidentBL _residentBL;
+        public ResidentsController(IResidentBL residentBL) : base(residentBL)
         {
+            _residentBL = residentBL;
         }
     }
 }

@@ -71,24 +71,24 @@ namespace DataAccessLayer
             return list;
         }
 
-        public IEnumerable<T> FilterData(FilterData filterData)
+        public IQueryable<T> GetQueryFilterData(FilterData filterData)
         {
             var query = _dbSet.AsQueryable();
 
             query = ApplyOrdering(query, filterData.SortName, filterData.SortMethod);
 
-            if (filterData.Conditions != null && filterData.Conditions.Count != 0)
+            if (filterData.Conditions.Any())
             {
                 foreach (var condition in filterData.Conditions)
                 {
                     if (condition.GuidValue != null)
                     {
-                        var lambda = CreateLambda(condition.Key, condition.GuidValue);
+                        var lambda = CreateLambda(condition.Key, condition.GuidValue, "Contains");
                         query = query.Where(lambda);
                     }
-                    else if(condition.Value != null)
+                    else if (condition.Value != null)
                     {
-                        var lambda = CreateLambda(condition.Key, condition.Value);
+                        var lambda = CreateLambda(condition.Key, condition.Value, "Contains");
                         query = query.Where(lambda);
                     }
                     else
@@ -99,16 +99,27 @@ namespace DataAccessLayer
             }
 
             // Lấy những dữ liệu có isDelete = 1
-            query.Where(NotDeleted<T>());
+            query = query.Where(NotDeleted<T>());
+
+            return query;
+        }
+
+        public virtual FilterResult<T> FilterData(FilterData filterData)
+        {
+            var query = GetQueryFilterData(filterData);
+
+            FilterResult<T> filterResult = new FilterResult<T>();
+
+            filterResult.TotalRecords = query.Count();
 
             // Nếu Page = 0 thì lấy full data k cần phân trang
             if (filterData.Page != 0)
             {
-                query.Skip((filterData.Page - 1) * filterData.Limit).Take(filterData.Limit);
+                query = query.Skip((filterData.Page - 1) * filterData.Limit).Take(filterData.Limit);
             }
 
-            T[] list = query.ToArray();
-            return list;
+            filterResult.Results = query.ToList();
+            return filterResult;
         }
 
         public virtual T GetById(Guid id)
@@ -116,7 +127,8 @@ namespace DataAccessLayer
             var query = _dbSet.Where(NotDeleted<T>());
 
             var lambda = CreateLambda(GetPrimaryKey<T>().Name, id);
-
+            var sql = query.ToQueryString();
+            Console.WriteLine(sql);
             T result = query.FirstOrDefault(lambda);
             return result;
         }
@@ -144,7 +156,7 @@ namespace DataAccessLayer
 
         protected static Expression<Func<T, bool>> NotDeleted<T>() where T : BaseEntity => t => !t.IsDeleted;
 
-        private IQueryable<T> ApplyOrdering(IQueryable<T> source, string propertyName, string sortMethod)
+        protected IQueryable<T> ApplyOrdering(IQueryable<T> source, string propertyName, string sortMethod)
         {
             var propertyInfo = typeof(T).GetProperty(propertyName);
 
@@ -190,24 +202,34 @@ namespace DataAccessLayer
             return primaryKeyProp;
         }
 
-        private static Expression<Func<T, bool>> CreateLambda(string key, object? value)
+        protected static Expression<Func<T, bool>> CreateLambda(string key, object value, string compareType = "Equal")
         {
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = Expression.Property(parameter, key);
 
             // khi value = null nghĩa là (x => x.AccountId)
-            if (value == null)
-            {
-                return Expression.Lambda<Func<T, bool>>(
-                    Expression.Convert(property, typeof(object)),
-                    parameter
-                );
-            }
+            //if (value == null)
+            //{
+            //    return Expression.Lambda<Func<T, bool>>(
+            //        Expression.Convert(property, typeof(object)),
+            //        parameter
+            //    );
+            //}
 
             // Khi value != null nghĩa là (x => x.AccountId == value)
             var constant = Expression.Constant(value);
-            var body = Expression.Equal(property, constant);
-            return Expression.Lambda<Func<T, bool>>(body, parameter);
+            if (compareType != "Equal")
+            {
+                var containsMethod = typeof(string).GetMethod(compareType, new[] { typeof(string) });
+                var body = Expression.Call(property, containsMethod, constant);
+                return Expression.Lambda<Func<T, bool>>(body, parameter);
+            }
+            else
+            {
+                var body = Expression.Equal(property, constant);
+                return Expression.Lambda<Func<T, bool>>(body, parameter);
+
+            }
         }
     }
 }

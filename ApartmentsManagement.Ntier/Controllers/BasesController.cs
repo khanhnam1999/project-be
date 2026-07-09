@@ -14,13 +14,14 @@ namespace ApartmentsManagement.Ntier.Controllers
 
         public BasesController(IBaseBL<T> baseBL) => _baseBL = baseBL;
 
+        [Authorize]
         [HttpPost("filter")]
         public IActionResult FilterData([FromBody] FilterData filterData)
         {
             try
             {
-                IEnumerable<T> list = _baseBL.FilterData(filterData);
-                return Ok(list);
+                FilterResult<T> result = _baseBL.FilterData(filterData);
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -61,5 +61,7 @@ namespace CommonDataLayer.Entities
 
         [Required(ErrorMessage = "Role là bắt buộc")]
         public RoleEnum Role { get; set; } = RoleEnum.Resident;
+
+        public Resident? Resident { get; set; }
     }
 }

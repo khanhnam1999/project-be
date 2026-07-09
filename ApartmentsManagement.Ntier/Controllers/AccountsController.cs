@@ -39,7 +39,7 @@ namespace ApartmentsManagement.Ntier.Controllers
         public IActionResult Register([FromBody] Account account) {
             try
             {
-                Guid id = _accountBL.Register(account);
+                Guid id = _accountBL.Add(account);
                 return Ok(id);
             }
             catch (DbUpdateException ex)

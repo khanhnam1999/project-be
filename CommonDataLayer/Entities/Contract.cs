@@ -13,8 +13,6 @@ namespace CommonDataLayer.Entities
         [Key]
         public Guid ContractId { get; set; } = Guid.NewGuid();
         
-        public ICollection<Resident>? Residents { get; set; }
-
         [ForeignKey("Apartment")]
         public Guid ApartmentId { get; set; }
         public Apartment? Apartment { get; set; }

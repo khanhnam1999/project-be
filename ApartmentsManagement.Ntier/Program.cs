@@ -26,6 +26,8 @@ builder.Services.AddScoped<IAccountBL, AccountBL>();
 builder.Services.AddScoped<IContractDL, ContractDL>();
 builder.Services.AddScoped<IContractBL, ContractBL>();
 
+builder.Services.AddScoped<IResidentDL, ResidentDL>();
+builder.Services.AddScoped<IResidentBL, ResidentBL>();
 // Thêm SignalR service
 builder.Services.AddSignalR();
 

@@ -38,7 +38,7 @@ namespace BusinessLogicLayer
             return _baseDL.GetAll();
         }
 
-        public IEnumerable<T> FilterData(FilterData filterData)
+        public FilterResult<T> FilterData(FilterData filterData)
         {
             return _baseDL.FilterData(filterData);
         }

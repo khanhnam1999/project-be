@@ -20,6 +20,12 @@ namespace CommonDataLayer.DTO
         public Guid? GuidValue { get; set; }
     }
 
+    public class FilterResult<T>
+    {
+        public List<T> Results { get; set; }
+        public int TotalRecords { get; set; }
+    }
+
     public class VerifyOtpRequest
     {
         public string Email { get; set; }

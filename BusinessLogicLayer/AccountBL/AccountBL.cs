@@ -46,12 +46,6 @@ namespace BusinessLogicLayer
             return account;
         }
 
-        public Guid Register(Account account)
-        {
-            account.Password = "";
-            return _accountDL.Add(account);
-        }
-
         private static string CreateJWT(Account account)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();

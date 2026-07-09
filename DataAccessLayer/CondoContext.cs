@@ -50,6 +50,11 @@ namespace DataAccessLayer
             modelBuilder.Entity<Resident>()
                 .HasIndex(r => r.AccountId).IsUnique();
 
+            modelBuilder.Entity<Resident>()
+                .HasOne(r => r.Account)
+                .WithOne(a => a.Resident)
+                .HasForeignKey<Resident>(r => r.AccountId);
+
             // Khai báo composite key cho bảng trung gian
             modelBuilder.Entity<ContractResident>()
                 .HasKey(cr => new { cr.ContractId, cr.ResidentId });

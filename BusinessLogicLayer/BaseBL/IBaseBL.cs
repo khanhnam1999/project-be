@@ -12,7 +12,7 @@ namespace BusinessLogicLayer
         IEnumerable<T> GetAll();
 
         // Phân trang, tìm kiếm, sắp xếp
-        IEnumerable<T> FilterData(FilterData filterData);
+        FilterResult<T> FilterData(FilterData filterData);
 
         // Lấy theo ID
         T GetById(Guid id);
