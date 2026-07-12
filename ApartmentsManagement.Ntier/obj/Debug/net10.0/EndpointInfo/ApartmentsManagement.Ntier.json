@@ -2804,8 +2804,7 @@
         "required": [
           "bookingDate",
           "createdDate",
-          "modifiedDate",
-          "status"
+          "modifiedDate"
         ],
         "type": "object",
         "properties": {
@@ -2843,12 +2842,18 @@
             "format": "date"
           },
           "status": {
-            "maxLength": 20,
-            "minLength": 0,
-            "type": "string"
+            "$ref": "#/components/schemas/BookingStatus"
           }
         },
         "additionalProperties": false
+      },
+      "BookingStatus": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Contract": {
         "required": [
@@ -3027,8 +3032,7 @@
         "required": [
           "createdDate",
           "description",
-          "modifiedDate",
-          "status"
+          "modifiedDate"
         ],
         "type": "object",
         "properties": {
@@ -3066,12 +3070,22 @@
             "type": "string"
           },
           "status": {
-            "maxLength": 20,
-            "minLength": 0,
-            "type": "string"
+            "$ref": "#/components/schemas/IncidentStatusEnum"
           }
         },
         "additionalProperties": false
+      },
+      "IncidentStatusEnum": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Login": {
         "required": [

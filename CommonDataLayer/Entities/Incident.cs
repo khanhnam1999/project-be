@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonDataLayer.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +23,6 @@ namespace CommonDataLayer.Entities
         [Required]
         public string Description { get; set; }
 
-        [Required, StringLength(20)]
-        public string Status { get; set; }
+        public IncidentStatusEnum Status { get; set; }
     }
 }

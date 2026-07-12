@@ -83,7 +83,7 @@ namespace DataAccessLayer
                 {
                     if (condition.GuidValue != null)
                     {
-                        var lambda = CreateLambda(condition.Key, condition.GuidValue, "Contains");
+                        var lambda = CreateLambda(condition.Key, condition.GuidValue);
                         query = query.Where(lambda);
                     }
                     else if (condition.Value != null)
@@ -98,7 +98,7 @@ namespace DataAccessLayer
                 }
             }
 
-            // Lấy những dữ liệu có isDelete = 1
+            // Lấy những dữ liệu có isDelete != 1
             query = query.Where(NotDeleted<T>());
 
             return query;

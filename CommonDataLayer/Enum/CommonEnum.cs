@@ -16,22 +16,13 @@
         Staff = 2,
     }
 
-    // Loại cư dân trong căn hộ, ví dụ: 3 - HomeOwner (Chủ hộ), 0 - Spouse (Vợ/Chồng), 1 - Child (Con cái), 2 - Tenant (Người thuê)
+    // Loại cư dân trong căn hộ, ví dụ: 0 - HomeOwner (Chủ hộ), 1 - Spouse (Vợ/Chồng), 2 - Child (Con cái), 3 - Tenant (Người thuê)
     public enum ResidentTypeEnum : byte
     {
         HomeOwner = 0,
         Spouse = 1,
         Child = 2,
         Tenant = 3
-    }
-
-    // Trạng thái của sự cố, ví dụ: 0 - Open (Mở), 1 - In Progress (Đang xử lý), 2 - Resolved (Đã giải quyết), 3 - Closed (Đã đóng)
-    public enum IncidentStatusEnum : byte
-    {
-        Open = 0,
-        InProgress = 1,
-        Resolved = 2,
-        Closed = 3
     }
 
     // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Installment (Mua trả góp), 2 - Rental (Thuê)
@@ -67,10 +58,28 @@
     }
 
     // Thông tin gửi cho ai: 0 - Tất cả, 1 - Dân cư, 2 - Nhân viên
-    public enum NotificationReceiveEnum :byte
+    public enum NotificationReceiveEnum : byte
     {
         All = 0,
         Resident = 1,
         Staff = 2,
+    }
+
+    // Thông tin trạng thái đặt dịch vụ: New: tạo mới, Closed: Đã sử dụng dịch vụ xong
+    public enum BookingStatus : byte
+    {
+        New = 0,
+        Closed = 1,
+    }
+
+    // Thông tin trạng thái sự cố: New: Tạo mới, InProgress: Đang điều tra, xử lý, Resolved: đã có giải pháp, sự cố được khắc phục, Closed: sự cố đã hoàn tất, không cần hành động thêm, Reopened: sự cố đã đóng nhưng phát sinh lại, cần xử lý tiếp, Cancelled: sự cố bị hủy, không xử lý nữa.
+    public enum IncidentStatusEnum : byte
+    {
+        New = 0,
+        InProgress = 1,
+        Resolved = 2,
+        Closed = 3,
+        Reopened = 4,
+        Cancelled = 5
     }
 }

@@ -8,10 +8,10 @@ namespace ApartmentsManagement.Ntier.Controllers
     [ApiController]
     public class BookingsController : BasesController<Booking>
     {
-        //private readonly IBookingBL _bookingBL;
-        public BookingsController(IBaseBL<Booking> bookingBL) : base(bookingBL)
+        private readonly IBookingBL _bookingBL;
+        public BookingsController(IBookingBL bookingBL) : base(bookingBL)
         {
-            //_bookingBL = bookingBL;
+            _bookingBL = bookingBL;
         }
     }
 }

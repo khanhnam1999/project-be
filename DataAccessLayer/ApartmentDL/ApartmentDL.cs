@@ -18,6 +18,7 @@ namespace DataAccessLayer
         {
             var query = _dbSet.Where(NotDeleted<Apartment>())
                .Include(x => x.Contracts.Where(a => !a.IsDeleted))
+                    .ThenInclude(c => c.ContractResidents.Where(cr => !cr.IsDeleted))
                .Include(x => x.Incidents.Where(a => !a.IsDeleted));
 
             return query.FirstOrDefault(x => x.ApartmentId == id);

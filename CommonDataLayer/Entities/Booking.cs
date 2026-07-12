@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonDataLayer.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +23,6 @@ namespace CommonDataLayer.Entities
         [Required, DataType(DataType.Date)]
         public DateTime BookingDate { get; set; }
 
-        [Required, StringLength(20)]
-        public string Status { get; set; }
+        public BookingStatus Status { get; set; }
     }
 }

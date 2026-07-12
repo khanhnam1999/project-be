@@ -1,3 +1,17 @@
-.vs/
+# Ignore thư mục build
 bin/
 obj/
+.vs/
+
+# Ignore file log
+*.log
+
+# Ignore file user-specific
+*.user
+*.suo
+
+# Ignore file cấu hình riêng
+appsettings.Development.json
+
+# Ignore thư mục publish
+publish/

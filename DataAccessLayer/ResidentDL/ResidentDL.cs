@@ -43,6 +43,15 @@ namespace DataAccessLayer
                     {
                         query = query.Where(r => r.Account.IdentityNumber.Contains(condition.Value));
                     }
+                    else if(condition.GuidValue != null) {
+                        var lambda = CreateLambda(condition.Key, condition.GuidValue);
+                        query = query.Where(lambda);
+                    }
+                    else
+                    {
+                        var lambda = CreateLambda(condition.Key, condition.Value, "Contains");
+                        query = query.Where(lambda);
+                    }
                 }
 
             }

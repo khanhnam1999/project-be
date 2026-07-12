@@ -28,7 +28,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -43,7 +43,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return StatusCode(500, ex.Message);
             }
         }
     }
