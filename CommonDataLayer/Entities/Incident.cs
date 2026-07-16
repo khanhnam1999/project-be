@@ -12,6 +12,7 @@ namespace CommonDataLayer.Entities
     {
         [Key]
         public Guid IncidentId { get; set; } = Guid.NewGuid();
+
         [ForeignKey("Apartment")]
         public Guid ApartmentId { get; set; }
         public Apartment? Apartment { get; set; }
@@ -20,9 +21,10 @@ namespace CommonDataLayer.Entities
         public Guid ReportedBy { get; set; }
         public Resident? Resident { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mô tả là bắt buộc")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Trạng thái là bắt buộc")]
         public IncidentStatusEnum Status { get; set; }
     }
 }

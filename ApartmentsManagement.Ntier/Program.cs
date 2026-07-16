@@ -31,6 +31,9 @@ builder.Services.AddScoped<IBookingBL, BookingBL>();
 
 builder.Services.AddScoped<IResidentDL, ResidentDL>();
 builder.Services.AddScoped<IResidentBL, ResidentBL>();
+
+builder.Services.AddScoped<IIncidentDL, IncidentDL>();
+builder.Services.AddScoped<IIncidentBL, IncidentBL>();
 // Thêm SignalR service
 builder.Services.AddSignalR();
 

@@ -1,9 +1,6 @@
 ﻿using CommonDataLayer.DTO;
 using CommonDataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccessLayer
 {
@@ -37,7 +34,6 @@ namespace DataAccessLayer
                     if (condition.Key == "FullName")
                     {
                         query = query.Where(r => r.Account.FullName.Contains(condition.Value));
-
                     }
                     else if(condition.Key == "IdentityNumber")
                     {

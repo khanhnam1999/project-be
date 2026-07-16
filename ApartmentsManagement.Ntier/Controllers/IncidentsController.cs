@@ -8,8 +8,10 @@ namespace ApartmentsManagement.Ntier.Controllers
     [ApiController]
     public class IncidentsController : BasesController<Incident>
     {
-        public IncidentsController(IBaseBL<Incident> baseBL) : base(baseBL)
+        private readonly IIncidentBL _incidentBL;
+        public IncidentsController(IIncidentBL incidentBL) : base(incidentBL)
         {
+            _incidentBL = incidentBL;
         }
     }
 }

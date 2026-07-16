@@ -3011,6 +3011,9 @@
             "type": "string",
             "nullable": true
           },
+          "incidentStatusValue": {
+            "$ref": "#/components/schemas/IncidentStatusEnum"
+          },
           "guidValue": {
             "type": "string",
             "format": "uuid",
@@ -3032,7 +3035,8 @@
         "required": [
           "createdDate",
           "description",
-          "modifiedDate"
+          "modifiedDate",
+          "status"
         ],
         "type": "object",
         "properties": {

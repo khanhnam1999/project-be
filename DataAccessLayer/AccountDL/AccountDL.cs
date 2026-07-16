@@ -33,6 +33,7 @@ namespace DataAccessLayer
         {
             Account account = _dbSet
                 .Where(NotDeleted<Account>())
+                .Include(x => x.Resident)
                 .FirstOrDefault(a => a.IdentityNumber == identityNunber);
             if (account == null) throw new Exception("Không đăng nhập được");
 
