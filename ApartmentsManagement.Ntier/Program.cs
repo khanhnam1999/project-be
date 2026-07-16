@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer;
+using CommonDataLayer.Entities;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Đắng ký sử dụng cache
 builder.Services.AddMemoryCache();
 builder.Services.AddTransient<SmsService>();
 
@@ -34,6 +36,9 @@ builder.Services.AddScoped<IResidentBL, ResidentBL>();
 
 builder.Services.AddScoped<IIncidentDL, IncidentDL>();
 builder.Services.AddScoped<IIncidentBL, IncidentBL>();
+
+builder.Services.AddScoped<IPaymentDL, PaymentDL>();
+builder.Services.AddScoped<IPaymentBL, PaymentBL>();
 // Thêm SignalR service
 builder.Services.AddSignalR();
 
@@ -104,6 +109,9 @@ builder.Services.AddOpenApi();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Đăng ký BackgroundService
+builder.Services.AddHostedService<MonthlyPaymentService>();
 
 var app = builder.Build();
 

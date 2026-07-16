@@ -8,5 +8,7 @@ namespace DataAccessLayer
     public interface IContractDL : IBaseDL<Contract>
     {
         Guid UpdateResidentToContract(ContractResident contractResident);
+
+        Task<List<Contract>> GetListContractsWithoutCashType();
     }
 }

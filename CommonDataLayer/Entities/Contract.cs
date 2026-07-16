@@ -26,18 +26,8 @@ namespace CommonDataLayer.Entities
         // Danh sách cư dân theo hợp đồng ( nhiều - nhiều)
         public ICollection<ContractResident>? ContractResidents { get; set; }
 
-        // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Installment (Mua trả góp), 2 - Rental (Thuê)
+        // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Rental (Thuê)
         [Required]
         public ContractTypeEnum Type { get; set; }
-
-        // Hợp đồng trả góp
-        // Số tiền trả trước
-        public decimal? InitialPayment {  get; set; }
-
-        // Số tiền còn lại trả góp
-        public decimal? LoanAmount { get; set; }
-
-        // Số tháng trả góp
-        public decimal? InstallmentMonth { get; set; }
     }
 }

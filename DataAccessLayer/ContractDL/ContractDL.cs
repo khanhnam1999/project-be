@@ -1,4 +1,5 @@
 ﻿using CommonDataLayer.Entities;
+using CommonDataLayer.Enum;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer
@@ -40,6 +41,16 @@ namespace DataAccessLayer
                     .ThenInclude(x => x.Resident)
                         .ThenInclude(x => x.Account);
             return query.FirstOrDefault(x => x.ContractId == id);
+        }
+
+        public async Task<List<Contract>> GetListContractsWithoutCashType()
+        {
+            var query = _dbSet.Where(x => !x.IsDeleted && x.Type == ContractTypeEnum.Rental)
+                .Include(x => x.Apartment)
+                .Include(x => x.ContractResidents.Where(a => !a.IsDeleted))
+                    .ThenInclude(x => x.Resident)
+                        .ThenInclude(x => x.Account);
+            return await query.ToListAsync();
         }
     }
 }

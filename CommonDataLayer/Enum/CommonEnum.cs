@@ -25,12 +25,11 @@
         Tenant = 3
     }
 
-    // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Installment (Mua trả góp), 2 - Rental (Thuê)
+    // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Rental (Thuê)
     public enum ContractTypeEnum : byte
     {
         Cash = 0,
-        Installment = 1,
-        Rental = 2,
+        Rental = 1,
     }
 
     // Phương thức thanh toán, ví dụ: 0 - Cash (Tiền mặt), 1 - BankTransfer (Chuyển khoản), 2 - CreditCard (Thẻ tín dụng), 3 - EWallet(Ví thanh toán)

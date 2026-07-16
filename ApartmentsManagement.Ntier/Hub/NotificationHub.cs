@@ -6,4 +6,9 @@ public class NotificationHub : Hub
     {
         await Clients.All.SendAsync("ReceiveMessage", user, message);
     }
+
+    public async Task SendToResident(Guid residentId, Guid paymentId, string message) 
+    { 
+        await Clients.User(residentId.ToString()).SendAsync("Payment", message);
+    }
 }
