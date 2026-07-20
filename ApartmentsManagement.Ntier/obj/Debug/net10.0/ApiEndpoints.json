@@ -334,6 +334,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.ApartmentsController",
+    "Method": "GetApartmentReport",
+    "RelativePath": "api/Apartments/report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Apartment, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
     "Method": "Restore",
     "RelativePath": "api/Apartments/restore",
@@ -763,6 +773,133 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "GetAll",
+    "RelativePath": "api/Notifications",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "Add",
+    "RelativePath": "api/Notifications",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "data",
+        "Type": "CommonDataLayer.Entities.Notification",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "GetById",
+    "RelativePath": "api/Notifications/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "Update",
+    "RelativePath": "api/Notifications/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "data",
+        "Type": "CommonDataLayer.Entities.Notification",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "Delete",
+    "RelativePath": "api/Notifications/delete",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ids",
+        "Type": "System.Collections.Generic.List\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "DeleteHard",
+    "RelativePath": "api/Notifications/delete-hard",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ids",
+        "Type": "System.Collections.Generic.List\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "FilterData",
+    "RelativePath": "api/Notifications/filter",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filterData",
+        "Type": "CommonDataLayer.DTO.FilterData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Notification, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+    "Method": "Restore",
+    "RelativePath": "api/Notifications/restore",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ids",
+        "Type": "System.Collections.Generic.List\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ApartmentsManagement.Ntier.Controllers.BasesController\u00601[[CommonDataLayer.Entities.Payment, CommonDataLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
     "Method": "GetAll",
     "RelativePath": "api/Payments",
@@ -869,6 +1006,32 @@
         "Name": "filterData",
         "Type": "CommonDataLayer.DTO.FilterData",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ApartmentsManagement.Ntier.Controllers.PaymentsController",
+    "Method": "GetReport",
+    "RelativePath": "api/Payments/report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "periodType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

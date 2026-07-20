@@ -1,11 +1,10 @@
-﻿using CommonDataLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CommonDataLayer.DTO;
+using CommonDataLayer.Entities;
 
 namespace DataAccessLayer
 {
     public interface IApartmentDL : IBaseDL<Apartment>
     {
+        Task<ApartmentReportDto> GetApartmentReport();
     }
 }

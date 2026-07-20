@@ -24,6 +24,12 @@ namespace CommonDataLayer.Entities
         [Required(ErrorMessage = "Mô tả là bắt buộc")]
         public string Description { get; set; }
 
+        public string? ResolvedDescription { get; set; }
+
+        public string? ClosedDescription { get; set; }
+
+        public string? CancelDescription { get; set; }
+
         [Required(ErrorMessage = "Trạng thái là bắt buộc")]
         public IncidentStatusEnum Status { get; set; }
     }

@@ -1,9 +1,12 @@
-﻿using CommonDataLayer.Entities;
+﻿using CommonDataLayer.DTO;
+using CommonDataLayer.Entities;
 
 namespace BusinessLogicLayer
 {
     public interface IPaymentBL : IBaseBL<Payment>
     {
         Task<List<Payment>> GeneratePayments();
+
+        Task<List<PaymentReportDto>> GetReport(DateTime startDate, DateTime endDate, string periodType);
     }
 }

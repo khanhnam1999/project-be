@@ -41,4 +41,22 @@ namespace CommonDataLayer.DTO
         public string Email { get; set; }
         public string Password { get; set; }
     }
+
+    public class ApartmentReportDto
+    {
+        public int EmptyCount { get; set; }
+        public int MaintenanceCount { get; set; }
+        public int OwnedCount { get; set; }
+        public int RentedCount { get; set; }
+        public int TotalCount { get; set; }
+    }
+
+    public class PaymentReportDto
+    {
+        public int Year { get; set; }
+        public int? Month { get; set; }
+        public int? Week { get; set; }
+        public decimal TotalAmount { get; set; }
+        public int Count { get; set; }
+    }
 }

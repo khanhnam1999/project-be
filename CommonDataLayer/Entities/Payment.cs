@@ -32,6 +32,7 @@ namespace CommonDataLayer.Entities
         [Required, DataType(DataType.Date)]
         public DateTime PaymentDeadline { get; set; }
 
-        public PaymentMethodEnum? PaymentMethod { get; set; }
+        [Required(ErrorMessage = "Phương thức thanh toán phải có")]
+        public PaymentMethodEnum PaymentMethod { get; set; } = PaymentMethodEnum.Unpaid;
     }
 }

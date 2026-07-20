@@ -41,5 +41,23 @@ namespace BusinessLogicLayer
 
             return payments;
         }
+
+        public async Task<List<PaymentReportDto>> GetReport(DateTime startDate, DateTime endDate, string periodType)
+        {
+            if (startDate > endDate) throw new Exception("Ngày bắt đầu không được lớn hơn ngày kết thúc");
+
+            if(periodType == "monthly")
+            {
+                return await _paymentDL.GetReportByMonthly(startDate, endDate);
+            }
+            else if(periodType == "weekly")
+            {
+                return await _paymentDL.GetReportByWeekly(startDate, endDate);
+            } 
+            else
+            {
+                throw new Exception("Chỉ lọc theo tháng hoặc tuần");
+            }
+        }
     }
 }

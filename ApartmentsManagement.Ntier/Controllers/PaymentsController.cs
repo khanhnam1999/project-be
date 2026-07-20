@@ -13,7 +13,22 @@ namespace ApartmentsManagement.Ntier.Controllers
         private readonly IPaymentBL _paymentBL;
         public PaymentsController(IPaymentBL paymentBL) : base(paymentBL)
         {
+            _paymentBL = paymentBL;
+        }
 
+        [HttpGet("report")]
+        public async Task<IActionResult> GetReport(DateTime startDate, DateTime endDate, string periodType = "month")
+        {
+            try
+            {
+                var results = await _paymentBL.GetReport(startDate, endDate, periodType);
+
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

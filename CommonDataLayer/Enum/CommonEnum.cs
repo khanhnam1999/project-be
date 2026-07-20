@@ -1,11 +1,12 @@
 ﻿namespace CommonDataLayer.Enum
 {
-    // Trạng thái của căn hộ, ví dụ: 0 - Available (Có sẵn), 1 - Occupied (Đã thuê), 2 - Maintenance (Bảo trì)
+    // Trạng thái của căn hộ, ví dụ: 0 - Available (Có sẵn), 1 - Occupied (Đã có người ở), 2 - Maintenance (Bảo trì)
     public enum ApartmentStatusEnum : byte
     {
         Available = 0,
-        Occupied = 1,
-        Maintenance = 2
+        Pending = 1,
+        Occupied = 2,
+        Maintenance = 3
     }
 
     // Vai trò của người dùng trong hệ thống, ví dụ: 0 - Resident (Cư dân), 1 - Owner (Chủ sở hữu), 2 - Staff (Nhân viên)
@@ -32,13 +33,14 @@
         Rental = 1,
     }
 
-    // Phương thức thanh toán, ví dụ: 0 - Cash (Tiền mặt), 1 - BankTransfer (Chuyển khoản), 2 - CreditCard (Thẻ tín dụng), 3 - EWallet(Ví thanh toán)
+    // Phương thức thanh toán, ví dụ: 0 - Unpaid (Chưa thanh toán), 4 - Cash (Tiền mặt), 1 - BankTransfer (Chuyển khoản), 2 - CreditCard (Thẻ tín dụng), 3 - EWallet(Ví thanh toán)
     public enum PaymentMethodEnum : byte
     {
-        Cash = 0,
+        Unpaid = 0,
         BankTransfer = 1,
         CreditCard = 2,
-        EWallet = 3
+        EWallet = 3,
+        Cash = 4,
     }
 
     // Thông tin của thông báo: 0 - Read (Đã đọc), 1 - Unread (Chưa đọc)
