@@ -20,6 +20,10 @@ namespace CommonDataLayer.Entities
         public Guid ServiceId { get; set; }
         public Service? Service { get; set; }
 
+        [ForeignKey("Apartment")]
+        public Guid? ApartmentId { get; set; }
+        public Apartment? Apartment { get; set; }
+
         [Required, DataType(DataType.Date)]
         // Khoảng thời gian đặt (theo tháng)
         public DateTime StartDate { get; set; }   // ví dụ: 2026-07-01

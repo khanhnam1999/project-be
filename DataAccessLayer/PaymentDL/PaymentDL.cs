@@ -1,5 +1,6 @@
 ﻿using CommonDataLayer.DTO;
 using CommonDataLayer.Entities;
+using CommonDataLayer.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,98 @@ namespace DataAccessLayer
                 await transaction.RollbackAsync();
                 throw; // hoặc log lỗi
             }
+        }
+
+        public async Task<List<PaymentInvoiceDto>> GetInvoicesByAccountIdAsync(Guid accountId)
+        {
+            var now = DateTime.Now;
+            var payments = await _dbSet
+                .Where(p => !p.IsDeleted && p.Resident.AccountId == accountId)
+                .Include(p => p.Contract).ThenInclude(c => c.Apartment)
+                .Include(p => p.Booking).ThenInclude(b => b.Apartment)
+                .OrderBy(p => p.PaymentDeadline)
+                .ToListAsync();
+
+            foreach (var payment in payments.Where(p => p.PaymentStatus == PaymentStatus.Pending && p.PaymentDeadline < now))
+                payment.PaymentStatus = PaymentStatus.Overdue;
+
+            if (_condoContext.ChangeTracker.HasChanges())
+                await _condoContext.SaveChangesAsync();
+
+            return payments.Select(p => new PaymentInvoiceDto
+            {
+                PaymentId = p.PaymentId,
+                Title = p.Title,
+                Description = p.Description,
+                RoomNumber = p.Contract?.Apartment?.RoomNumber ?? p.Booking?.Apartment?.RoomNumber,
+                Amount = p.Amount,
+                Deadline = p.PaymentDeadline,
+                Type = p.PaymentType,
+                Status = p.PaymentStatus,
+                PaymentDate = p.PaymentDate
+            }).ToList();
+        }
+
+        public async Task<int> ConfirmTransactionAsync(Guid transactionId)
+        {
+            var payments = await _dbSet
+                .Where(p => p.TransactionId == transactionId && !p.IsDeleted)
+                .ToListAsync();
+
+            if (payments.Count == 0)
+                throw new KeyNotFoundException("Không tìm thấy giao dịch");
+            if (payments.All(p => p.PaymentStatus == PaymentStatus.Paid))
+                return payments.Count;
+            if (payments.Any(p => p.PaymentStatus is not PaymentStatus.AwaitingBankTransfer
+                                  and not PaymentStatus.AwaitingCashConfirmation
+                                  and not PaymentStatus.Paid))
+                throw new InvalidOperationException("Giao dịch không ở trạng thái chờ xác nhận");
+
+            var paidAt = DateTime.Now;
+            foreach (var payment in payments.Where(p => p.PaymentStatus != PaymentStatus.Paid))
+            {
+                payment.PaymentStatus = PaymentStatus.Paid;
+                payment.PaymentDate = paidAt;
+                payment.ModifiedDate = paidAt;
+            }
+
+            await _condoContext.SaveChangesAsync();
+            return payments.Count;
+        }
+
+        public async Task<List<Payment>> CheckoutAsync(Guid accountId, IReadOnlyCollection<Guid> paymentIds,
+            PaymentMethodEnum paymentMethod, Guid transactionId, string referenceCode)
+        {
+            var uniqueIds = paymentIds.Distinct().ToList();
+            if (uniqueIds.Count == 0)
+                throw new ArgumentException("Phải chọn ít nhất một hóa đơn");
+
+            await using var transaction = await _condoContext.Database.BeginTransactionAsync();
+            var payments = await _dbSet
+                .Where(p => uniqueIds.Contains(p.PaymentId) && p.Resident.AccountId == accountId && !p.IsDeleted)
+                .ToListAsync();
+
+            if (payments.Count != uniqueIds.Count)
+                throw new KeyNotFoundException("Có hóa đơn không tồn tại hoặc không thuộc cư dân hiện tại");
+            if (payments.Any(p => p.PaymentStatus is PaymentStatus.Paid or PaymentStatus.Cancelled
+                                  or PaymentStatus.AwaitingBankTransfer or PaymentStatus.AwaitingCashConfirmation))
+                throw new InvalidOperationException("Chỉ hóa đơn đang chờ hoặc quá hạn mới có thể checkout");
+
+            var status = paymentMethod == PaymentMethodEnum.Cash
+                ? PaymentStatus.AwaitingCashConfirmation
+                : PaymentStatus.AwaitingBankTransfer;
+            foreach (var payment in payments)
+            {
+                payment.PaymentMethod = paymentMethod;
+                payment.PaymentStatus = status;
+                payment.TransactionId = transactionId;
+                payment.ReferenceCode = referenceCode;
+                payment.ModifiedDate = DateTime.Now;
+            }
+
+            await _condoContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+            return payments;
         }
 
         public async Task<List<PaymentReportDto>> GetReportByMonthly(DateTime startDate, DateTime endDate)

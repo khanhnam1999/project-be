@@ -43,12 +43,20 @@
     }
 
     // Trạng thái thanh toán
-    public enum PaymentStatus
+    public enum PaymentStatus : byte
     {
-        Pending,        // đang chờ thanh toán
-        Paid,           // đã thanh toán
-        LatePayment,   // thanh toán muộn
-        Overdue        // quá hạn
+        Pending = 0,
+        AwaitingBankTransfer = 1,
+        AwaitingCashConfirmation = 2,
+        Paid = 3,
+        Overdue = 4,
+        Cancelled = 5
+    }
+
+    public enum PaymentType : byte
+    {
+        Rent = 0,
+        Service = 1
     }
 
     // Thông tin của thông báo: 0 - Read (Đã đọc), 1 - Unread (Chưa đọc)

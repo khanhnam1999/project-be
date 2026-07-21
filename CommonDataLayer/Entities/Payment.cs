@@ -37,6 +37,13 @@ namespace CommonDataLayer.Entities
 
         public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
 
+        public PaymentType PaymentType { get; set; }
+
         public PaymentMethodEnum? PaymentMethod { get; set; }
+
+        public Guid? TransactionId { get; set; }
+
+        [StringLength(50)]
+        public string? ReferenceCode { get; set; }
     }
 }

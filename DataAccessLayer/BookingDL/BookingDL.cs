@@ -21,7 +21,8 @@ namespace DataAccessLayer
         public override FilterResult<Booking> FilterData(FilterData filterData)
         {
             var query = GetQueryFilterData(filterData);
-            query = query.Include(x => x.Resident)
+            query = query.Include(x => x.Apartment)
+                    .Include(x => x.Resident)
                     .ThenInclude(a => a.Account);
             FilterResult<Booking> result = new FilterResult<Booking>();
             result.TotalRecords = query.Count();
@@ -33,6 +34,7 @@ namespace DataAccessLayer
         {
             var query = _dbSet.Where(x => !x.IsDeleted && x.Status == BookingStatus.Using)
                 .Include(x => x.Service)
+                .Include(x => x.Apartment)
                 .Include(x => x.Resident)
                     .ThenInclude(a => a.Account);
 

@@ -4,6 +4,7 @@ using CommonDataLayer.DTO;
 using CommonDataLayer.Entities;
 using CommonDataLayer.Enum;
 using DataAccessLayer;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessLogicLayer
 {
@@ -12,12 +13,15 @@ namespace BusinessLogicLayer
         private readonly IPaymentDL _paymentDL;
         private readonly IContractDL _contractDL;
         private readonly IBookingDL _bookingDL;
+        private readonly IConfiguration _configuration;
 
-        public PaymentBL(IPaymentDL paymentDL, IContractDL contractDL, IBookingDL bookingDL) : base(paymentDL)
+        public PaymentBL(IPaymentDL paymentDL, IContractDL contractDL, IBookingDL bookingDL,
+            IConfiguration configuration) : base(paymentDL)
         {
             _paymentDL = paymentDL;
             _contractDL = contractDL;
             _bookingDL = bookingDL;
+            _configuration = configuration;
         }
 
         public async Task<List<Payment>> GenerateBookingPayments()
@@ -46,7 +50,9 @@ namespace BusinessLogicLayer
                 payment.ResidentId = contractResident.ResidentId;
                 payment.ContractId = contractResident.ContractId;
                 payment.Amount = apartment.RentPrice;
+                payment.PaymentType = PaymentType.Rent;
                 payment.Description = $"Bạn có lịch đóng tiền thuê căn hộ {apartment.RoomNumber} từ ngày hôm nay đến ngày mùng 10";
+                payments.Add(payment);
             }
 
             // Tạo danh sách hóa đơn sử dụng dịch vụ
@@ -59,6 +65,7 @@ namespace BusinessLogicLayer
                 payment.Title = $"Đóng phí dịch vụ ${service.Name}";
                 payment.ResidentId = booking.ResidentId;
                 payment.BookingId = booking.BookingId;
+                payment.PaymentType = PaymentType.Service;
                 int days = (booking.EndDate - booking.StartDate).Days + 1;
 
                 if (booking.BookingType == BookingType.Monthly)
@@ -66,7 +73,7 @@ namespace BusinessLogicLayer
                     int daysInMonth = DateTime.DaysInMonth(booking.EndDate.Year, booking.EndDate.Month);
                     if (days < daysInMonth)
                     {
-                        payment.Amount = (days / daysInMonth) * service.MonthlyPrice;
+                        payment.Amount = ((decimal)days / daysInMonth) * service.MonthlyPrice;
                     }
                     else if (days == daysInMonth)
                     {
@@ -75,18 +82,71 @@ namespace BusinessLogicLayer
                     else
                     {
                         int leftDays = days - daysInMonth;
-                        payment.Amount = service.MonthlyPrice + (leftDays / daysInMonth) * service.MonthlyPrice;
+                        payment.Amount = service.MonthlyPrice + ((decimal)leftDays / daysInMonth) * service.MonthlyPrice;
                     }
                 }
                 else
                 {
                     payment.Amount = service.Price * days;
                 }
+
+                payments.Add(payment);
             }
 
             await _paymentDL.AddPaymentsAsync(payments);
 
             return payments;
+        }
+
+        public Task<List<PaymentInvoiceDto>> GetMyInvoices(Guid accountId)
+            => _paymentDL.GetInvoicesByAccountIdAsync(accountId);
+
+        public async Task<CheckoutResponseDto> Checkout(Guid accountId, CheckoutRequestDto request)
+        {
+            if (request.PaymentMethod is not PaymentMethodEnum.Cash and not PaymentMethodEnum.BankTransfer)
+                throw new ArgumentException("Chỉ hỗ trợ thanh toán tiền mặt hoặc chuyển khoản");
+
+            var transactionId = Guid.NewGuid();
+            var referenceCode = $"ECOHOME-{DateTime.UtcNow:yyMMdd}-{transactionId.ToString("N")[..8].ToUpperInvariant()}";
+            var payments = await _paymentDL.CheckoutAsync(
+                accountId, request.PaymentIds, request.PaymentMethod, transactionId, referenceCode);
+            var status = request.PaymentMethod == PaymentMethodEnum.Cash
+                ? PaymentStatus.AwaitingCashConfirmation
+                : PaymentStatus.AwaitingBankTransfer;
+
+            return new CheckoutResponseDto
+            {
+                TransactionId = transactionId,
+                ReferenceCode = referenceCode,
+                TotalAmount = payments.Sum(x => x.Amount),
+                Status = status,
+                BankTransfer = request.PaymentMethod == PaymentMethodEnum.BankTransfer
+                    ? CreateBankTransferInfo(referenceCode, payments.Sum(x => x.Amount))
+                    : null
+            };
+        }
+
+        public Task<int> ConfirmTransaction(Guid transactionId)
+            => _paymentDL.ConfirmTransactionAsync(transactionId);
+
+        private BankTransferInfoDto CreateBankTransferInfo(string referenceCode, decimal amount)
+        {
+            var section = _configuration.GetSection("BankTransfer");
+            var qrCodeUrl = section["QrCodeUrl"];
+            if (!string.IsNullOrWhiteSpace(qrCodeUrl))
+            {
+                var separator = qrCodeUrl.Contains('?') ? "&" : "?";
+                qrCodeUrl = $"{qrCodeUrl}{separator}amount={amount:0.##}&addInfo={Uri.EscapeDataString(referenceCode)}&accountName={Uri.EscapeDataString(section["AccountName"] ?? string.Empty)}";
+            }
+
+            return new BankTransferInfoDto
+            {
+                BankName = section["BankName"],
+                AccountNumber = section["AccountNumber"],
+                AccountName = section["AccountName"],
+                TransferContent = referenceCode,
+                QrCodeUrl = qrCodeUrl
+            };
         }
 
         public async Task<List<PaymentReportDto>> GetReport(DateTime startDate, DateTime endDate, string periodType)

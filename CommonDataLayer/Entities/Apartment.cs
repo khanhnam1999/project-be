@@ -37,5 +37,6 @@ namespace CommonDataLayer.Entities
 
         public ICollection<Contract>? Contracts { get; set; }
         public ICollection<Incident>? Incidents { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

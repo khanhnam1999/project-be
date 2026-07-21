@@ -107,6 +107,12 @@ namespace DataAccessLayer
                 .HasForeignKey(b => b.ServiceId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Apartment)
+                .WithMany(a => a.Bookings)
+                .HasForeignKey(b => b.ApartmentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             // Apartment - Incident (1-nhiều)
             modelBuilder.Entity<Incident>()
                 .HasOne(i => i.Apartment)

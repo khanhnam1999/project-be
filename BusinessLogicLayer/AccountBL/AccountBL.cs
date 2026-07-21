@@ -52,6 +52,7 @@ namespace BusinessLogicLayer
             //var secretKey = _configuration["JwtSettings:SecretKey"];
             var key = Encoding.ASCII.GetBytes("DayLaChuoiBiMatSieuCapVipProTren32KyTu123456!");
             var identity = new ClaimsIdentity(new Claim[] {
+                new Claim(ClaimTypes.NameIdentifier, account.AccountId.ToString()),
                 new Claim(ClaimTypes.Role, account.Role.ToString()),
                 new Claim(ClaimTypes.Name, account.FullName),
                 new Claim(ClaimTypes.Email, account.Email),

@@ -143,6 +143,9 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CommonDataLayer.Entities.Booking", b =>
                 {
+                    b.Property<Guid?>("ApartmentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("BookingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
@@ -175,6 +178,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("tinyint");
 
                     b.HasKey("BookingId");
+
+                    b.HasIndex("ApartmentId");
 
                     b.HasIndex("ResidentId");
 
@@ -366,8 +371,15 @@ namespace DataAccessLayer.Migrations
                     b.Property<byte?>("PaymentMethod")
                         .HasColumnType("tinyint");
 
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
+                    b.Property<byte>("PaymentStatus")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("PaymentType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("ReferenceCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("ResidentId")
                         .HasColumnType("uniqueidentifier");
@@ -375,6 +387,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("TransactionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("PaymentId");
 
@@ -532,6 +547,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CommonDataLayer.Entities.Booking", b =>
                 {
+                    b.HasOne("CommonDataLayer.Entities.Apartment", "Apartment")
+                        .WithMany("Bookings")
+                        .HasForeignKey("ApartmentId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("CommonDataLayer.Entities.Resident", "Resident")
                         .WithMany("Bookings")
                         .HasForeignKey("ResidentId")
@@ -543,6 +563,8 @@ namespace DataAccessLayer.Migrations
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Apartment");
 
                     b.Navigation("Resident");
 
@@ -651,6 +673,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CommonDataLayer.Entities.Apartment", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Contracts");
 
                     b.Navigation("Incidents");
