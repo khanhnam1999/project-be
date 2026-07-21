@@ -7,5 +7,6 @@ namespace DataAccessLayer
 {
     public interface IBookingDL : IBaseDL<Booking>
     {
+        Task<List<Booking>> GetListBookingsUnPaid();
     }
 }

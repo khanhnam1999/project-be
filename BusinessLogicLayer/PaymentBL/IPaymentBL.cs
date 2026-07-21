@@ -7,6 +7,8 @@ namespace BusinessLogicLayer
     {
         Task<List<Payment>> GeneratePayments();
 
+        Task<List<Payment>> GenerateBookingPayments();
+
         Task<List<PaymentReportDto>> GetReport(DateTime startDate, DateTime endDate, string periodType);
     }
 }

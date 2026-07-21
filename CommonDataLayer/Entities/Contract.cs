@@ -29,5 +29,8 @@ namespace CommonDataLayer.Entities
         // Trạng thái của hợp đồng, ví dụ: 0 - Cash (Mua trả thẳng, 1 - Rental (Thuê)
         [Required]
         public ContractTypeEnum Type { get; set; }
+
+        // Danh sách hóa đơn
+        public ICollection<Payment>? Payments { get; set; }
     }
 }

@@ -80,6 +80,19 @@ namespace DataAccessLayer
                 .HasForeignKey(p => p.ResidentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // Contract - Payment (1-nhiều)
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Contract)
+                .WithMany(r => r.Payments)
+                .HasForeignKey(p => p.ContractId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Payment - Booking (1-1)
+            modelBuilder.Entity<Payment>()
+                .HasOne(r => r.Booking)
+                .WithOne(a => a.Payment)
+                .HasForeignKey<Payment>(r => r.BookingId);
+
             // Resident - Booking (1-nhiều)
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Resident)

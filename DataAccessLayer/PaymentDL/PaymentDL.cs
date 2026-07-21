@@ -83,5 +83,50 @@ namespace DataAccessLayer
             return report;
 
         }
+
+        public override FilterResult<Payment> FilterData(FilterData filterData)
+        {
+            var query = _dbSet.AsQueryable();
+
+            query = query
+                .Include(x => x.Contract)
+                .Include(x => x.Booking)
+                .Include(a => a.Resident)
+                    .ThenInclude(ax => ax.Account);
+
+            if (filterData.Conditions.Any())
+            {
+                foreach (var condition in filterData.Conditions)
+                {
+                    if (condition.Key == "PaymentMethod")
+                    {
+                        query = query.Where(r => r.PaymentMethod == condition.PaymentStatusValue);
+                    }
+                    else if (condition.GuidValue != null)
+                    {
+                        var lambda = CreateLambda(condition.Key, condition.GuidValue);
+                        query = query.Where(lambda);
+                    }
+                    else
+                    {
+                        var lambda = CreateLambda(condition.Key, condition.Value, "Contains");
+                        query = query.Where(lambda);
+                    }
+                }
+            }
+
+            FilterResult<Payment> filterResult = new FilterResult<Payment>();
+
+            filterResult.TotalRecords = query.Count();
+
+            if (filterData.Page != 0)
+            {
+                query = query.Skip((filterData.Page - 1) * filterData.Limit).Take(filterData.Limit);
+            }
+
+            filterResult.Results = query.ToList();
+
+            return filterResult;
+        }
     }
 }

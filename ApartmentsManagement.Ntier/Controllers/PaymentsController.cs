@@ -30,5 +30,8 @@ namespace ApartmentsManagement.Ntier.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        //[HttpPut("paid")]
+        //public async Task
     }
 }

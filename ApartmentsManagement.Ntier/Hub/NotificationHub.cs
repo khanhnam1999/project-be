@@ -11,4 +11,9 @@ public class NotificationHub : Hub
     { 
         await Clients.User(residentId.ToString()).SendAsync("Payment", message);
     }
+
+    public async Task SendToManager(string message)
+    {
+         await Clients.User("Manager").SendAsync("Payment", message);
+    }
 }

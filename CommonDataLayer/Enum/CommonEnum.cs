@@ -33,14 +33,22 @@
         Rental = 1,
     }
 
-    // Phương thức thanh toán, ví dụ: 0 - Unpaid (Chưa thanh toán), 4 - Cash (Tiền mặt), 1 - BankTransfer (Chuyển khoản), 2 - CreditCard (Thẻ tín dụng), 3 - EWallet(Ví thanh toán)
+    // Phương thức thanh toán, ví dụ: 0 - Cash (Tiền mặt), 1 - BankTransfer (Chuyển khoản), 2 - CreditCard (Thẻ tín dụng), 3 - EWallet(Ví thanh toán)
     public enum PaymentMethodEnum : byte
     {
-        Unpaid = 0,
+        Cash = 0,
         BankTransfer = 1,
         CreditCard = 2,
         EWallet = 3,
-        Cash = 4,
+    }
+
+    // Trạng thái thanh toán
+    public enum PaymentStatus
+    {
+        Pending,        // đang chờ thanh toán
+        Paid,           // đã thanh toán
+        LatePayment,   // thanh toán muộn
+        Overdue        // quá hạn
     }
 
     // Thông tin của thông báo: 0 - Read (Đã đọc), 1 - Unread (Chưa đọc)
@@ -66,21 +74,28 @@
         Staff = 2,
     }
 
-    // Thông tin trạng thái đặt dịch vụ: New: tạo mới, Closed: Đã sử dụng dịch vụ xong
+    // Thông tin trạng thái đặt dịch vụ: New: tạo mới, Using: Đang sử dụng dịch vụ , Closed: Đã sử dụng dịch vụ xong
     public enum BookingStatus : byte
     {
-        New = 0,
-        Closed = 1,
+        New,        
+        Using,
+        Closed,
     }
 
-    // Thông tin trạng thái sự cố: New: Tạo mới, InProgress: Đang điều tra, xử lý, Resolved: đã có giải pháp, sự cố được khắc phục, Closed: sự cố đã hoàn tất, không cần hành động thêm, Reopened: sự cố đã đóng nhưng phát sinh lại, cần xử lý tiếp, Cancelled: sự cố bị hủy, không xử lý nữa.
+    public enum BookingType : byte
+    {
+        Daily,      // Book theo ngày
+        Monthly,    // Book theo tháng
+    }
+
+    // Thông tin trạng thái sự cố
     public enum IncidentStatusEnum : byte
     {
-        New = 0,
-        InProgress = 1,
-        Resolved = 2,
-        Closed = 3,
-        Reopened = 4,
-        Cancelled = 5
+        New = 0,            // Tạo mới
+        InProgress = 1,     // Đang điều tra
+        Resolved = 2,       // đã có giải pháp, sự cố được khắc phục
+        Closed = 3,         // sự cố đã hoàn tất, không cần hành động thêm
+        Reopened = 4,       // sự cố đã đóng nhưng phát sinh lại
+        Cancelled = 5       // sự cố bị hủy, không xử lý nữa.
     }
 }

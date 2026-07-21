@@ -19,6 +19,7 @@ namespace CommonDataLayer.DTO
         public string Key { get; set; }
         public string? Value { get; set; }
         public IncidentStatusEnum? IncidentStatusValue { get; set; }
+        public PaymentMethodEnum? PaymentStatusValue { get; set; }
         public Guid? GuidValue { get; set; }
         //public string CompareFunc   { get; set; }
     }

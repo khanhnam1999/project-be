@@ -15,24 +15,28 @@ namespace CommonDataLayer.Entities
 
         [ForeignKey("Resident")]
         public Guid ResidentId { get; set; }
-
         public Resident? Resident { get; set; }
+
+        public Guid? ContractId { get; set; }
+        public Contract? Contract { get; set; }
+
+        public Guid? BookingId { get; set; }
+        public Booking? Booking { get; set; }
 
         [Required]
         public string Title { get; set; }
 
         public string? Description { get; set; }
 
-        [Range(0, 100000000)]
         public decimal Amount { get; set; }
 
-        [Required, DataType(DataType.Date)]
         public DateTime? PaymentDate { get; set; }
 
         [Required, DataType(DataType.Date)]
-        public DateTime PaymentDeadline { get; set; }
+        public DateTime PaymentDeadline { get; set; } = DateTime.Now.AddDays(10);
 
-        [Required(ErrorMessage = "Phương thức thanh toán phải có")]
-        public PaymentMethodEnum PaymentMethod { get; set; } = PaymentMethodEnum.Unpaid;
+        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
+
+        public PaymentMethodEnum? PaymentMethod { get; set; }
     }
 }

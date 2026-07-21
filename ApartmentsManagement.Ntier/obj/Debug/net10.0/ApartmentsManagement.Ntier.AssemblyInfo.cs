@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApartmentsManagement.Ntier")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+808582a74d61af108e87f2ad0fa08476492b7a39")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da273a8aedb1f9df6b1bd4767423d4ed94d06878")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApartmentsManagement.Ntier")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApartmentsManagement.Ntier")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4,6 +4,7 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(CondoContext))]
-    partial class CondoContextModelSnapshot : ModelSnapshot
+    [Migration("20260720175848_Update_payment")]
+    partial class Update_payment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,9 +149,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<Guid>("BookingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte>("BookingType")
-                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -339,12 +339,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("BookingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -363,11 +357,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("PaymentDeadline")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte?>("PaymentMethod")
+                    b.Property<byte>("PaymentMethod")
                         .HasColumnType("tinyint");
-
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
 
                     b.Property<Guid>("ResidentId")
                         .HasColumnType("uniqueidentifier");
@@ -377,12 +368,6 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PaymentId");
-
-                    b.HasIndex("BookingId")
-                        .IsUnique()
-                        .HasFilter("[BookingId] IS NOT NULL");
-
-                    b.HasIndex("ContractId");
 
                     b.HasIndex("ResidentId");
 
@@ -600,24 +585,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CommonDataLayer.Entities.Payment", b =>
                 {
-                    b.HasOne("CommonDataLayer.Entities.Booking", "Booking")
-                        .WithOne("Payment")
-                        .HasForeignKey("CommonDataLayer.Entities.Payment", "BookingId");
-
-                    b.HasOne("CommonDataLayer.Entities.Contract", "Contract")
-                        .WithMany("Payments")
-                        .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("CommonDataLayer.Entities.Resident", "Resident")
                         .WithMany("Payments")
                         .HasForeignKey("ResidentId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("Booking");
-
-                    b.Navigation("Contract");
 
                     b.Navigation("Resident");
                 });
@@ -656,16 +628,9 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Incidents");
                 });
 
-            modelBuilder.Entity("CommonDataLayer.Entities.Booking", b =>
-                {
-                    b.Navigation("Payment");
-                });
-
             modelBuilder.Entity("CommonDataLayer.Entities.Contract", b =>
                 {
                     b.Navigation("ContractResidents");
-
-                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("CommonDataLayer.Entities.Province", b =>

@@ -21,8 +21,16 @@ namespace CommonDataLayer.Entities
         public Service? Service { get; set; }
 
         [Required, DataType(DataType.Date)]
-        public DateTime BookingDate { get; set; }
+        // Khoảng thời gian đặt (theo tháng)
+        public DateTime StartDate { get; set; }   // ví dụ: 2026-07-01
 
-        public BookingStatus Status { get; set; }
+        [Required, DataType(DataType.Date)]
+        public DateTime EndDate { get; set; }
+
+        public BookingStatus Status { get; set; } = BookingStatus.New;
+
+        public BookingType BookingType { get; set; } = BookingType.Daily;
+
+        public Payment? Payment { get; set; }
     }
 }

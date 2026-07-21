@@ -1,5 +1,6 @@
 ﻿using CommonDataLayer.DTO;
 using CommonDataLayer.Entities;
+using CommonDataLayer.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,16 @@ namespace DataAccessLayer
             result.TotalRecords = query.Count();
             result.Results = query.ToList();
             return result;
+        }
+
+        public async Task<List<Booking>> GetListBookingsUnPaid()
+        {
+            var query = _dbSet.Where(x => !x.IsDeleted && x.Status == BookingStatus.Using)
+                .Include(x => x.Service)
+                .Include(x => x.Resident)
+                    .ThenInclude(a => a.Account);
+
+            return await query.ToListAsync();
         }
     }
 }

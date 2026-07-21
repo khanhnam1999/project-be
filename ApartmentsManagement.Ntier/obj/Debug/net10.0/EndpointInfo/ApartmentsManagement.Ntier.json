@@ -3381,9 +3381,10 @@
       },
       "Booking": {
         "required": [
-          "bookingDate",
           "createdDate",
-          "modifiedDate"
+          "endDate",
+          "modifiedDate",
+          "startDate"
         ],
         "type": "object",
         "properties": {
@@ -3416,7 +3417,11 @@
           "service": {
             "$ref": "#/components/schemas/Service"
           },
-          "bookingDate": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
             "type": "string",
             "format": "date"
           },
@@ -3576,6 +3581,9 @@
           },
           "incidentStatusValue": {
             "$ref": "#/components/schemas/IncidentStatusEnum"
+          },
+          "paymentStatusValue": {
+            "$ref": "#/components/schemas/PaymentMethodEnum"
           },
           "guidValue": {
             "type": "string",
@@ -3758,8 +3766,8 @@
         "required": [
           "createdDate",
           "modifiedDate",
-          "paymentDate",
           "paymentDeadline",
+          "paymentMethod",
           "title"
         ],
         "type": "object",
@@ -3795,14 +3803,13 @@
             "nullable": true
           },
           "amount": {
-            "maximum": 100000000,
-            "minimum": 0,
             "type": "number",
             "format": "double"
           },
           "paymentDate": {
             "type": "string",
-            "format": "date"
+            "format": "date-time",
+            "nullable": true
           },
           "paymentDeadline": {
             "type": "string",
@@ -3819,7 +3826,8 @@
           0,
           1,
           2,
-          3
+          3,
+          4
         ],
         "type": "integer",
         "format": "int32"
@@ -3979,6 +3987,12 @@
             "nullable": true
           },
           "price": {
+            "maximum": 100000,
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "monthlyPrice": {
             "maximum": 100000,
             "minimum": 0,
             "type": "number",
