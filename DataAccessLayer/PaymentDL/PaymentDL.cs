@@ -21,22 +21,8 @@ namespace DataAccessLayer
 
         public async Task AddPaymentsAsync(List<Payment> payments)
         {
-            using var transaction = await _condoContext.Database.BeginTransactionAsync();
-            try
-            {
-                // Thêm danh sách payment
-                await _dbSet.AddRangeAsync(payments);
-                await _condoContext.SaveChangesAsync();
-
-                // Commit transaction nếu thành công
-                await transaction.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                // Rollback nếu có lỗi
-                await transaction.RollbackAsync();
-                throw; // hoặc log lỗi
-            }
+            await _dbSet.AddRangeAsync(payments);
+            await _condoContext.SaveChangesAsync();
         }
 
         public async Task<List<PaymentInvoiceDto>> GetInvoicesByAccountIdAsync(Guid accountId)
@@ -103,7 +89,6 @@ namespace DataAccessLayer
             if (uniqueIds.Count == 0)
                 throw new ArgumentException("Phải chọn ít nhất một hóa đơn");
 
-            await using var transaction = await _condoContext.Database.BeginTransactionAsync();
             var payments = await _dbSet
                 .Where(p => uniqueIds.Contains(p.PaymentId) && p.Resident.AccountId == accountId && !p.IsDeleted)
                 .ToListAsync();
@@ -127,7 +112,6 @@ namespace DataAccessLayer
             }
 
             await _condoContext.SaveChangesAsync();
-            await transaction.CommitAsync();
             return payments;
         }
 
