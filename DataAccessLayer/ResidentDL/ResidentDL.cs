@@ -26,16 +26,21 @@ namespace DataAccessLayer
         {
             var query = _dbSet.AsQueryable();
             query = query.Include(x => x.Account)
-                .Where(a => !a.Account.IsDeleted);
-            if (filterData.Conditions.Any())
+                .Where(r => r.Account != null && !r.Account.IsDeleted);
+            if (filterData.Conditions?.Any() == true)
             {
                 foreach (var condition in filterData.Conditions)
                 {
-                    if (condition.Key == "FullName")
+                    if (string.IsNullOrWhiteSpace(condition.Key))
+                    {
+                        continue;
+                    }
+
+                    if (condition.Key == "FullName" && !string.IsNullOrEmpty(condition.Value))
                     {
                         query = query.Where(r => r.Account.FullName.Contains(condition.Value));
                     }
-                    else if(condition.Key == "IdentityNumber")
+                    else if(condition.Key == "IdentityNumber" && !string.IsNullOrEmpty(condition.Value))
                     {
                         query = query.Where(r => r.Account.IdentityNumber.Contains(condition.Value));
                     }
@@ -43,7 +48,7 @@ namespace DataAccessLayer
                         var lambda = CreateLambda(condition.Key, condition.GuidValue);
                         query = query.Where(lambda);
                     }
-                    else
+                    else if (condition.Value != null)
                     {
                         var lambda = CreateLambda(condition.Key, condition.Value, "Contains");
                         query = query.Where(lambda);
@@ -51,7 +56,10 @@ namespace DataAccessLayer
                 }
 
             }
-            query = ApplyOrdering(query, filterData.SortName, filterData.SortMethod)
+            query = ApplyOrdering(
+                    query,
+                    string.IsNullOrWhiteSpace(filterData.SortName) ? "ModifiedDate" : filterData.SortName,
+                    string.IsNullOrWhiteSpace(filterData.SortMethod) ? "DESC" : filterData.SortMethod)
                 .Where(NotDeleted<Resident>());
 
             FilterResult<Resident> filterResult = new FilterResult<Resident>();

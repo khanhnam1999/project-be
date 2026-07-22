@@ -147,14 +147,14 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseAuthentication();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
-app.UseAuthorization();
-
-app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseCors(MyAllowSpecificOrigins);
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
