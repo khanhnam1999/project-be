@@ -25,6 +25,78 @@ namespace DataAccessLayer
             await _condoContext.SaveChangesAsync();
         }
 
+        public FilterResult<PaymentListDto> FilterPayments(FilterData filterData)
+        {
+            var query = _dbSet
+                .AsNoTracking()
+                .Where(p => !p.IsDeleted);
+
+            query = ApplyOrdering(query, filterData.SortName, filterData.SortMethod);
+
+            foreach (var condition in filterData.Conditions ?? [])
+            {
+                if (condition.Key == nameof(Payment.PaymentMethod))
+                {
+                    query = query.Where(p => p.PaymentMethod == condition.PaymentStatusValue);
+                }
+                else if (condition.GuidValue.HasValue)
+                {
+                    query = query.Where(CreateLambda(condition.Key, condition.GuidValue.Value));
+                }
+                else if (condition.Value != null)
+                {
+                    query = query.Where(CreateLambda(condition.Key, condition.Value, "Contains"));
+                }
+                else
+                {
+                    throw new ArgumentException($"Điều kiện {condition.Key} không có giá trị");
+                }
+            }
+
+            var totalRecords = query.Count();
+
+            if (filterData.Page > 0)
+            {
+                query = query
+                    .Skip((filterData.Page - 1) * filterData.Limit)
+                    .Take(filterData.Limit);
+            }
+
+            var results = query
+                .Select(p => new PaymentListDto
+                {
+                    PaymentId = p.PaymentId,
+                    ResidentId = p.ResidentId,
+                    ContractId = p.ContractId,
+                    BookingId = p.BookingId,
+                    Title = p.Title,
+                    Description = p.Description,
+                    Amount = p.Amount,
+                    PaymentDate = p.PaymentDate,
+                    PaymentDeadline = p.PaymentDeadline,
+                    PaymentStatus = p.PaymentStatus,
+                    PaymentType = p.PaymentType,
+                    PaymentMethod = p.PaymentMethod,
+                    TransactionId = p.TransactionId,
+                    ReferenceCode = p.ReferenceCode,
+                    ResidentName = p.Resident != null && p.Resident.Account != null
+                        ? p.Resident.Account.FullName
+                        : null,
+                    RoomNumber = p.Contract != null && p.Contract.Apartment != null
+                        ? p.Contract.Apartment.RoomNumber
+                        : p.Booking != null && p.Booking.Apartment != null
+                            ? p.Booking.Apartment.RoomNumber
+                            : null
+                })
+                .ToList();
+
+            return new FilterResult<PaymentListDto>
+            {
+                TotalRecords = totalRecords,
+                Results = results
+            };
+        }
+
         public async Task<List<PaymentInvoiceDto>> GetInvoicesByAccountIdAsync(Guid accountId)
         {
             var now = DateTime.Now;

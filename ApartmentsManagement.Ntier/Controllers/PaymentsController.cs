@@ -29,7 +29,7 @@ namespace ApartmentsManagement.Ntier.Controllers
 
         [Authorize(Roles = "Staff")]
         [HttpPost("filter")]
-        public IActionResult Filter([FromBody] FilterData filterData) => Ok(_paymentBL.FilterData(filterData));
+        public IActionResult Filter([FromBody] FilterData filterData) => Ok(_paymentBL.FilterPayments(filterData));
 
         [Authorize(Roles = "Staff")]
         [HttpPost]
@@ -90,7 +90,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             catch (InvalidOperationException ex) { return Conflict(ex.Message); }
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize]
         [HttpGet("report")]
         public async Task<IActionResult> GetReport(DateTime startDate, DateTime endDate, string periodType = "month")
         {
