@@ -133,7 +133,7 @@ namespace DataAccessLayer
             return result;
         }
 
-        public Guid Update(Guid id, T entity)
+        public virtual Guid Update(Guid id, T entity)
         {
             PropertyInfo[] props = typeof(T).GetProperties();
             Guid entityId = GetPrimaryKeyValue(entity);

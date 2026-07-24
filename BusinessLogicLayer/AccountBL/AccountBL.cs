@@ -46,11 +46,14 @@ namespace BusinessLogicLayer
             return account;
         }
 
-        private static string CreateJWT(Account account)
+        private string CreateJWT(Account account)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-            //var secretKey = _configuration["JwtSettings:SecretKey"];
-            var key = Encoding.ASCII.GetBytes("DayLaChuoiBiMatSieuCapVipProTren32KyTu123456!");
+            var secretKey = _configuration["JwtSettings:SecretKey"];
+            if (string.IsNullOrWhiteSpace(secretKey))
+                throw new InvalidOperationException("Chưa cấu hình JwtSettings:SecretKey");
+
+            var key = Encoding.UTF8.GetBytes(secretKey);
             var identity = new ClaimsIdentity(new Claim[] {
                 new Claim(ClaimTypes.NameIdentifier, account.AccountId.ToString()),
                 new Claim(ClaimTypes.Role, account.Role.ToString()),

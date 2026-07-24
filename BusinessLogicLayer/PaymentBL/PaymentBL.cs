@@ -98,6 +98,9 @@ namespace BusinessLogicLayer
             return payments;
         }
 
+        public FilterResult<PaymentListDto> FilterPayments(FilterData filterData)
+            => _paymentDL.FilterPayments(filterData);
+
         public Task<List<PaymentInvoiceDto>> GetMyInvoices(Guid accountId)
             => _paymentDL.GetInvoicesByAccountIdAsync(accountId);
 

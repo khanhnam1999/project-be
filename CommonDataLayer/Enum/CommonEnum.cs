@@ -13,7 +13,9 @@
     public enum RoleEnum : byte
     {
         Resident = 0,
-        Onwer = 1,
+        Owner = 1,
+        // Giữ alias cũ để các đoạn code và JWT đã phát trước đây vẫn tương thích.
+        Onwer = Owner,
         Staff = 2,
     }
 

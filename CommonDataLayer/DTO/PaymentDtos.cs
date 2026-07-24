@@ -4,6 +4,26 @@ using System.Text.Json.Serialization;
 
 namespace CommonDataLayer.DTO
 {
+    public class PaymentListDto
+    {
+        public Guid PaymentId { get; set; }
+        public Guid ResidentId { get; set; }
+        public Guid? ContractId { get; set; }
+        public Guid? BookingId { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public DateTime PaymentDeadline { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
+        public PaymentType PaymentType { get; set; }
+        public PaymentMethodEnum? PaymentMethod { get; set; }
+        public Guid? TransactionId { get; set; }
+        public string? ReferenceCode { get; set; }
+        public string? ResidentName { get; set; }
+        public string? RoomNumber { get; set; }
+    }
+
     public class PaymentInvoiceDto
     {
         public Guid PaymentId { get; set; }
