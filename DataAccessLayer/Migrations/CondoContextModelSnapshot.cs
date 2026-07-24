@@ -143,11 +143,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("CommonDataLayer.Entities.Booking", b =>
                 {
-                    b.Property<Guid?>("ApartmentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("BookingId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ApartmentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<byte>("BookingType")
