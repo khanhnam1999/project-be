@@ -85,7 +85,8 @@ builder.Services.AddAuthentication(x =>
 }).AddJwtBearer(x =>
 {
     var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-    var secretKey = jwtSettings["SecretKey"];
+    var secretKey = jwtSettings["SecretKey"]
+        ?? throw new InvalidOperationException("Chưa cấu hình JwtSettings:SecretKey");
     x.RequireHttpsMetadata = false;
     x.SaveToken = true;
     x.TokenValidationParameters = new TokenValidationParameters

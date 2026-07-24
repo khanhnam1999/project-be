@@ -18,7 +18,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             _apartmentBL = apartmentBL;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpGet("report")]
         public async Task<IActionResult> GetApartmentReport()
         {

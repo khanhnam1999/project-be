@@ -19,40 +19,40 @@ namespace ApartmentsManagement.Ntier.Controllers
             _paymentBL = paymentBL;
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpGet]
         public IActionResult GetAll() => Ok(_paymentBL.GetAll());
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpGet("{id:guid}")]
         public IActionResult GetById(Guid id) => Ok(_paymentBL.GetById(id));
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPost("filter")]
         public IActionResult Filter([FromBody] FilterData filterData) => Ok(_paymentBL.FilterPayments(filterData));
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPost]
         public IActionResult Add([FromBody] Payment payment)
             => CreatedAtAction(nameof(GetById), new { id = _paymentBL.Add(payment) }, null);
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPut("{id:guid}")]
         public IActionResult Update(Guid id, [FromBody] Payment payment) => Ok(_paymentBL.Update(id, payment));
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPost("delete")]
         public IActionResult Delete([FromBody] List<Guid> ids) => Ok(_paymentBL.Delete(ids));
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPost("restore")]
         public IActionResult Restore([FromBody] List<Guid> ids) => Ok(_paymentBL.Restore(ids));
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPost("delete-hard")]
         public IActionResult DeleteHard([FromBody] List<Guid> ids) => Ok(_paymentBL.DeleteHard(ids));
 
-        [Authorize]
+        [Authorize(Roles = "Resident")]
         [HttpGet("my-invoices")]
         public async Task<IActionResult> GetMyInvoices()
         {
@@ -62,7 +62,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             return Ok(await _paymentBL.GetMyInvoices(accountId));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Resident")]
         [HttpPost("checkout")]
         public async Task<IActionResult> Checkout([FromBody] CheckoutRequestDto request)
         {
@@ -78,7 +78,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             catch (InvalidOperationException ex) { return Conflict(ex.Message); }
         }
 
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpPut("transactions/{transactionId:guid}/confirm")]
         public async Task<IActionResult> ConfirmTransaction(Guid transactionId)
         {
@@ -90,7 +90,7 @@ namespace ApartmentsManagement.Ntier.Controllers
             catch (InvalidOperationException ex) { return Conflict(ex.Message); }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Owner,Onwer,Staff")]
         [HttpGet("report")]
         public async Task<IActionResult> GetReport(DateTime startDate, DateTime endDate, string periodType = "month")
         {
